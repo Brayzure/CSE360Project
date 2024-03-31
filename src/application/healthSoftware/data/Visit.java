@@ -13,7 +13,8 @@ public class Visit {
 	String recommendations;
 	String findings;
 	
-	public Visit() {
-		
+	public Visit(String nPatientID) {
+		//Make visitID
+		this.patientID = nPatientID;
 	}
 }

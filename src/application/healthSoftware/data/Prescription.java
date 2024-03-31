@@ -1,12 +1,20 @@
 package application.healthSoftware.data;
 
 public class Prescription {
-	public String name;
-	public String dosage;
-	public String duration;
+	String name;
+	String dosage;
+	String duration;
 	
 	public Prescription() {
-		
+		this.name = "";
+		this.dosage = "";
+		this.duration = "";
+	}
+	
+	public Prescription(String nName, String nDosage, String nDuration) {
+		this.name = nName;
+		this.dosage = nDosage;
+		this.duration = nDuration;
 	}
 	
 	public String getName() {
