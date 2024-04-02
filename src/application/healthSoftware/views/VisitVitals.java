@@ -41,12 +41,19 @@ public class VisitVitals implements IScreen {
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
+		
+		HBox heightInput = makeCenteredInputElement("Height");
+		TextField heightField = (TextField) heightInput.getChildren().get(0);
+		HBox weightInput = makeCenteredInputElement("Weight");
+		HBox bodyTempInput = makeCenteredInputElement("Body Temperature");
+		HBox systolicInput = makeCenteredInputElement("Systolic BP");
+		HBox diastolicInput = makeCenteredInputElement("Diastolic BP");
 
-		content.getChildren().add(makeCenteredInputElement("Height"));
-		content.getChildren().add(makeCenteredInputElement("Weight"));
-		content.getChildren().add(makeCenteredInputElement("Body Temperature"));
-		content.getChildren().add(makeCenteredInputElement("Systolic BP"));
-		content.getChildren().add(makeCenteredInputElement("Diastolic BP"));
+		content.getChildren().add(heightInput);
+		content.getChildren().add(weightInput);
+		content.getChildren().add(bodyTempInput);
+		content.getChildren().add(systolicInput);
+		content.getChildren().add(diastolicInput);
 		
 		Button registerButton = new Button("Register Vitals");
 		registerButton.setOnMouseClicked((e) -> {
