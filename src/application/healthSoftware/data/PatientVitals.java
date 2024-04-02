@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class PatientVitals {
+import java.io.Serializable;
+
+public class PatientVitals implements Serializable {
 	private int height;
 	private int weight;
 	private int temperature;

@@ -1,8 +1,13 @@
 package application.healthSoftware.data;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Visit {
+public class Visit implements Serializable {
+	// Change whenever we DELETE a field or we CHANGE its type
+	// Methods can be changed or deleted freely
+	private static final long serialVersionUID = 1L;
+		
 	public String visitID;
 	public String patientID;
 	private String state;
