@@ -1,25 +1,70 @@
 package application.healthSoftware.data;
 
 public class PatientVitals {
-	int height;
-	int weight;
-	int temperature;
-	int systolicBP;
-	int diastolicBP;
+	private int height;
+	private int weight;
+	private int temperature;
+	private int systolicBP;
+	private int diastolicBP;
 	
 	public PatientVitals() {
-		this.height = 0;
-		this.weight = 0;
-		this.temperature = 0;
-		this.systolicBP = 0;
-		this.diastolicBP = 0;
+		height = 0;
+		weight = 0;
+		temperature = 0;
+		systolicBP = 0;
+		diastolicBP = 0;
 	}
 	
 	public PatientVitals(int heightInput, int weightInput, int tempInput, int sBPInput, int dBPInput) {
-		this.height = heightInput;
-		this.weight = weightInput;
-		this.temperature = tempInput;
-		this.systolicBP = sBPInput;
-		this.diastolicBP = dBPInput;
+		height = heightInput;
+		weight = weightInput;
+		temperature = tempInput;
+		systolicBP = sBPInput;
+		diastolicBP = dBPInput;
+	}
+	
+	public void setHeight(int nHeight) {
+		height = nHeight;
+		return;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void setWeight(int nWeight) {
+		weight = nWeight;
+		return;
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
+	
+	public void setTemp(int nTemp) {
+		temperature = nTemp;
+		return;
+	}
+	
+	public int getTemp() {
+		return temperature;
+	}
+	
+	public void setSystolic(int nSystolic) {
+		systolicBP = nSystolic;
+		return;
+	}
+	
+	public int getSystolic() {
+		return systolicBP;
+	}
+	
+	public void setDiastolic(int nDiastolic) {
+		diastolicBP = nDiastolic;
+		return;
+	}
+	
+	public int getDiastolic() {
+		return diastolicBP;
 	}
 }

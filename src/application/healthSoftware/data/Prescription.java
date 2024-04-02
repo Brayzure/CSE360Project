@@ -1,9 +1,9 @@
 package application.healthSoftware.data;
 
 public class Prescription {
-	String name;
-	String dosage;
-	String duration;
+	private String name;
+	private String dosage;
+	private String duration;
 	
 	public Prescription() {
 		this.name = "";
@@ -21,11 +21,26 @@ public class Prescription {
 		return name;
 	}
 	
+	public void setName(String newName) {
+		name = newName;
+		return;
+	}
+	
 	public String getDosage() {
 		return dosage;
 	}
 	
+	public void setDosage(String newDosage) {
+		dosage = newDosage;
+		return;
+	}
+	
 	public String getDuration() {
 		return duration;
+	}
+	
+	public void setDuration(String newDuration) {
+		duration = newDuration;
+		return;
 	}
 }
