@@ -45,9 +45,13 @@ public class VisitVitals implements IScreen {
 		HBox heightInput = makeCenteredInputElement("Height");
 		TextField heightField = (TextField) heightInput.getChildren().get(0);
 		HBox weightInput = makeCenteredInputElement("Weight");
+		TextField weightField = (TextField) weightInput.getChildren().get(0);
 		HBox bodyTempInput = makeCenteredInputElement("Body Temperature");
+		TextField bodyTempField = (TextField) bodyTempInput.getChildren().get(0);
 		HBox systolicInput = makeCenteredInputElement("Systolic BP");
+		TextField systolicField = (TextField) systolicInput.getChildren().get(0);
 		HBox diastolicInput = makeCenteredInputElement("Diastolic BP");
+		TextField diastolicField = (TextField) diastolicInput.getChildren().get(0);
 
 		content.getChildren().add(heightInput);
 		content.getChildren().add(weightInput);
