@@ -78,6 +78,11 @@ public class Visit {
 		return;
 	}
 	
+	public void appendPrescription(Prescription nPrescription) {
+		prescriptions.add(nPrescription);
+		return;
+	}
+	
 	public List<Prescription> getPrescriptions() {
 		return prescriptions;
 	}
