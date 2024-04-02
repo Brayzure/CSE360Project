@@ -1,15 +1,20 @@
 package application.healthSoftware.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientProfile {
+public class PatientProfile implements Serializable {
 
+	// Change whenever we DELETE a field or we CHANGE its type
+	// Methods can be changed or deleted freely
+	private static final long serialVersionUID = 1L;
+	
 	//instance vars
-	String patientID;
-	String firstName;
-	String lastName;
-	String birthday;
+	public String patientID;
+	public String firstName;
+	public String lastName;
+	public String birthday;
 
 	ContactInformation contactInformation;
 	InsuranceInformation insurance;

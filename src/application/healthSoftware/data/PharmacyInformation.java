@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class PharmacyInformation {
+import java.io.Serializable;
+
+public class PharmacyInformation implements Serializable {
 	//instance vars
 	String name;
 	String address;
