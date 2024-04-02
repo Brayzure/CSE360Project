@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class Immunization {
+import java.io.Serializable;
+
+public class Immunization implements Serializable {
 	//instance vars
 	String type;
 	String date;

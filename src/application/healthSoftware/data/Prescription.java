@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class Prescription {
+import java.io.Serializable;
+
+public class Prescription implements Serializable {
 	private String name;
 	private String dosage;
 	private String duration;
