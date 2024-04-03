@@ -19,6 +19,7 @@ public class DataController {
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
 	
 	private Visit currentVisit;
+	private PatientProfile currentPatientProfile;
 	
 	private DataController() {
 		initialize();
@@ -119,6 +120,14 @@ public class DataController {
 	
 	public Visit getCurrentVisit() {
 		return currentVisit;
+	}
+	
+	public void setCurrentPatientProfile(PatientProfile p) {
+		currentPatientProfile = p;
+	}
+	
+	public PatientProfile getCurrentPatientProfile() {
+		return currentPatientProfile;
 	}
 	
 	// Save a patient profile
