@@ -2,6 +2,8 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.Util;
+import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,6 +73,11 @@ public class VisitPatientLookup implements IScreen {
 		
 		Button registerButton = new Button("Register Patient");
 		registerButton.setOnMouseClicked((e) -> {
+			String newPatientID = Util.generateID();
+			String newVisitID = Util.generateID();
+			Visit newVisit = new Visit(newVisitID, newPatientID);
+			dataController.setCurrentVisit(newVisit);
+			dataController.saveVisit(newVisit);
 			screenController.moveToScreen("visitVitals");
 		});
 		HBox row = new HBox(registerButton);

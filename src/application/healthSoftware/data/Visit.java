@@ -21,7 +21,7 @@ public class Visit implements Serializable {
 	public Visit(String inputVisitID, String inputPatientID) {
 		visitID = inputVisitID;
 		patientID = inputPatientID;
-		state = "NULL";
+		state = "NEW";
 		vitals = null;
 		allergies = "NULL";
 		healthConcerns = "NULL";
@@ -33,7 +33,7 @@ public class Visit implements Serializable {
 	public Visit() {
 		visitID = "NULL";
 		patientID = "NULL";
-		state = "NULL";
+		state = "NEW";
 		vitals = null;
 		allergies = "NULL";
 		healthConcerns = "NULL";
