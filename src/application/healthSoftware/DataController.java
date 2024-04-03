@@ -100,13 +100,29 @@ public class DataController {
 		return visits;
 	}
 	
-	// Get all visits associated with a single patient
+	// Get all visits associated with a single patient and a single state
 	public List<Visit> getAllVisitsForPatientWithState(String patientID, String state) {
 		List<Visit> visits = new ArrayList<Visit>();
 		
 		for(Map.Entry<String, Visit> entry : allVisits.entrySet()) {
 			Visit visit = entry.getValue();
 			if(visit.patientID.equals(patientID) && visit.getState().equals(state)) {
+				visits.add(visit);
+			}
+			else {
+			}
+		}
+		
+		return visits;
+	}
+	
+	// Get all visits that are at a certain state
+	public List<Visit> getAllVisitsWithState(String state) {
+		List<Visit> visits = new ArrayList<Visit>();
+		
+		for(Map.Entry<String, Visit> entry : allVisits.entrySet()) {
+			Visit visit = entry.getValue();
+			if(visit.getState().equals(state)) {
 				visits.add(visit);
 			}
 			else {
