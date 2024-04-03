@@ -17,6 +17,7 @@ public class DataController {
 
 	private Map<String, Visit> allVisits = new LinkedHashMap<>();
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
+	private Map<String, MessageThread> allThreads = new LinkedHashMap<>();
 	
 	private Visit currentVisit;
 	private PatientProfile currentPatientProfile;
@@ -49,6 +50,20 @@ public class DataController {
 		// Load all visits into memory
 		try {
 			allVisits = (Map<String, Visit>) Serializer.deserialize(rootFolder + "visits.ser");
+		}
+		catch(FileNotFoundException err) {
+			// File doesn't exist, that's alright!
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+		catch(ClassNotFoundException err) {
+			err.printStackTrace();
+		}
+		
+		// Load all threads into memory
+		try {
+			allThreads = (Map<String, MessageThread>) Serializer.deserialize(rootFolder + "threads.ser");
 		}
 		catch(FileNotFoundException err) {
 			// File doesn't exist, that's alright!
@@ -146,5 +161,35 @@ public class DataController {
 	// Retrieve a cached patient profile
 	public PatientProfile getPatientProfile(String patientID) {
 		return allPatients.get(patientID);
+	}
+	
+	// Get all message threads
+	public List<MessageThread> getAllMessageThreads() {
+		List<MessageThread> threads = new ArrayList<MessageThread>();
+		
+		for(Map.Entry<String, MessageThread> entry : allThreads.entrySet()) {
+			MessageThread thread = entry.getValue();
+			threads.add(thread);
+		}
+		
+		return threads;
+	}
+	
+	// Retrieve a cached patient profile
+	public MessageThread getMessageThread(String threadID) {
+		return allThreads.get(threadID);
+	}
+	
+	// Save a visit
+	public void saveMessageThread(MessageThread t) {
+		allThreads.put(t.threadID, t);
+		
+		String fileName = rootFolder + "threads.ser";
+		try {
+			Serializer.serialize(allThreads, fileName);
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
 	}
 }

@@ -1,16 +1,19 @@
 package application.healthSoftware.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MessageThread {
-	String threadID;
-	String authorID;
-	User author;
-	String dateCreated;
-	boolean isOpen;
-	boolean shouldNotifyParent;
-	boolean shouldNotifyStaff;
-	ArrayList<Message> messages;
+public class MessageThread implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	public String threadID;
+	public String authorID;
+	public User author;
+	public String dateCreated;
+	public boolean isOpen;
+	public boolean shouldNotifyParent;
+	public boolean shouldNotifyStaff;
+	public ArrayList<Message> messages;
 	
 	
 	public MessageThread() {
