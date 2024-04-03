@@ -95,7 +95,7 @@ public class VisitVitals implements IScreen {
 			PatientVitals newPatientVitals = new PatientVitals(height, weight, bodyTemp, systolicBP, diastolicBP);
 			Visit current = dataController.getCurrentVisit();
 			current.setVitals(newPatientVitals);
-			current.setState("VITALS");
+			current.setState("EXAM");
 			dataController.saveVisit(current);
 			screenController.moveToScreen("visitExamRoom");
 		});

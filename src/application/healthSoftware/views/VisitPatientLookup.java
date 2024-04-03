@@ -76,6 +76,7 @@ public class VisitPatientLookup implements IScreen {
 			String newPatientID = Util.generateID();
 			String newVisitID = Util.generateID();
 			Visit newVisit = new Visit(newVisitID, newPatientID);
+			newVisit.setState("VITALS");
 			dataController.setCurrentVisit(newVisit);
 			dataController.saveVisit(newVisit);
 			screenController.moveToScreen("visitVitals");
