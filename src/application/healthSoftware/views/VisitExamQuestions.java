@@ -2,6 +2,7 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,9 @@ public class VisitExamQuestions implements IScreen {
 	
 	private ScreenController screenController;
 	private DataController dataController;
+	
+	private String allergies;
+	private String healthConcerns;
 	
 	public VisitExamQuestions(ScreenController sc) {
 		screenController = sc;
@@ -42,12 +46,31 @@ public class VisitExamQuestions implements IScreen {
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
+		
+		HBox allergiesInput = makeCenteredInputElement("Allergies");
+		TextField allergiesField = (TextField) allergiesInput.getChildren().get(0);
+		
+		allergiesField.textProperty().addListener((observable, oldValue, newValue) -> {
+			allergies = newValue;
+		});
+		
+		HBox healthConcernsInput = makeCenteredInputElement("Health Concerns");
+		TextField healthConcernsField = (TextField) healthConcernsInput.getChildren().get(0);
+		
+		healthConcernsField.textProperty().addListener((observable, oldValue, newValue) -> {
+			healthConcerns = newValue;
+		});
 
-		content.getChildren().add(makeCenteredInputElement("Allergies"));
-		content.getChildren().add(makeCenteredInputElement("Health Concerns"));
+		content.getChildren().add(allergiesInput);
+		content.getChildren().add(healthConcernsInput);
 		
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
+			Visit current = dataController.getCurrentVisit();
+			current.setAllergies(allergies);
+			current.setHealthConcerns(healthConcerns);
+			current.setState("EXAM");
+			dataController.saveVisit(current);
 			screenController.moveToScreen("visitPatientOverview");
 		});
 		HBox row = new HBox(registerButton);
