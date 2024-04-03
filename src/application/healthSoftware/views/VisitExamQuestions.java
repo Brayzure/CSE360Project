@@ -69,7 +69,6 @@ public class VisitExamQuestions implements IScreen {
 			Visit current = dataController.getCurrentVisit();
 			current.setAllergies(allergies);
 			current.setHealthConcerns(healthConcerns);
-			current.setState("FINDINGS");
 			dataController.saveVisit(current);
 			screenController.moveToScreen("visitPatientOverview");
 		});
