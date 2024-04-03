@@ -18,6 +18,7 @@ public class DataController {
 	private Map<String, Visit> allVisits = new LinkedHashMap<>();
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
 	private Map<String, MessageThread> allThreads = new LinkedHashMap<>();
+	private Map<String, User> allUsers = new LinkedHashMap<>();
 	
 	private Visit currentVisit;
 	private PatientProfile currentPatientProfile;
@@ -26,6 +27,7 @@ public class DataController {
 		initialize();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void initialize() {
 		// Check if the directory we need exists, if not, create it
 		File dir =  new File(DataController.rootFolder);
@@ -64,6 +66,20 @@ public class DataController {
 		// Load all threads into memory
 		try {
 			allThreads = (Map<String, MessageThread>) Serializer.deserialize(rootFolder + "threads.ser");
+		}
+		catch(FileNotFoundException err) {
+			// File doesn't exist, that's alright!
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+		catch(ClassNotFoundException err) {
+			err.printStackTrace();
+		}
+		
+		// Load all users into memory
+		try {
+			allUsers = (Map<String, User>) Serializer.deserialize(rootFolder + "users.ser");
 		}
 		catch(FileNotFoundException err) {
 			// File doesn't exist, that's alright!
@@ -191,6 +207,20 @@ public class DataController {
 		return threads;
 	}
 	
+	// Get all message threads
+	public List<MessageThread> getAllMessageThreadsForPatient(String patientID) {
+		List<MessageThread> threads = new ArrayList<MessageThread>();
+		
+		for(Map.Entry<String, MessageThread> entry : allThreads.entrySet()) {
+			MessageThread thread = entry.getValue();
+			if(thread.authorID.equals(patientID)) {
+				threads.add(thread);
+			}
+		}
+		
+		return threads;
+	}
+	
 	// Retrieve a cached patient profile
 	public MessageThread getMessageThread(String threadID) {
 		return allThreads.get(threadID);
@@ -207,5 +237,43 @@ public class DataController {
 		catch(IOException err) {
 			err.printStackTrace();
 		}
+	}
+	
+	// Retrieve a specific user by their ID
+	public User getUser(String userID) {
+		return allUsers.get(userID);
+	}
+	
+	// Save a user
+	public void saveUser(User u) {
+		allUsers.put(u.userID, u);
+		
+		String fileName = rootFolder + "users.ser";
+		try {
+			Serializer.serialize(allUsers, fileName);
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+	}
+	
+	public User searchForUser(String firstName, String lastName, String birthday) {
+		for(Map.Entry<String, User> entry : allUsers.entrySet()) {
+			User u = entry.getValue();
+			if(u.firstName.equals(firstName) && u.lastName.equals(lastName) && u.birthday.equals(birthday)) {
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	public PatientProfile searchForPatientProfile(String firstName, String lastName, String birthday) {
+		for(Map.Entry<String, PatientProfile> entry : allPatients.entrySet()) {
+			PatientProfile p = entry.getValue();
+			if(p.firstName.equals(firstName) && p.lastName.equals(lastName) && p.birthday.equals(birthday)) {
+				return p;
+			}
+		}
+		return null;
 	}
 }
