@@ -17,8 +17,10 @@ public class DataController {
 
 	private Map<String, Visit> allVisits = new LinkedHashMap<>();
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
+	private Map<String, MessageThread> allThreads = new LinkedHashMap<>();
 	
 	private Visit currentVisit;
+	private PatientProfile currentPatientProfile;
 	
 	private DataController() {
 		initialize();
@@ -58,6 +60,20 @@ public class DataController {
 		catch(ClassNotFoundException err) {
 			err.printStackTrace();
 		}
+		
+		// Load all threads into memory
+		try {
+			allThreads = (Map<String, MessageThread>) Serializer.deserialize(rootFolder + "threads.ser");
+		}
+		catch(FileNotFoundException err) {
+			// File doesn't exist, that's alright!
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+		catch(ClassNotFoundException err) {
+			err.printStackTrace();
+		}
 	}
 	
 	public static DataController getInstance() {
@@ -84,13 +100,29 @@ public class DataController {
 		return visits;
 	}
 	
-	// Get all visits associated with a single patient
+	// Get all visits associated with a single patient and a single state
 	public List<Visit> getAllVisitsForPatientWithState(String patientID, String state) {
 		List<Visit> visits = new ArrayList<Visit>();
 		
 		for(Map.Entry<String, Visit> entry : allVisits.entrySet()) {
 			Visit visit = entry.getValue();
 			if(visit.patientID.equals(patientID) && visit.getState().equals(state)) {
+				visits.add(visit);
+			}
+			else {
+			}
+		}
+		
+		return visits;
+	}
+	
+	// Get all visits that are at a certain state
+	public List<Visit> getAllVisitsWithState(String state) {
+		List<Visit> visits = new ArrayList<Visit>();
+		
+		for(Map.Entry<String, Visit> entry : allVisits.entrySet()) {
+			Visit visit = entry.getValue();
+			if(visit.getState().equals(state)) {
 				visits.add(visit);
 			}
 			else {
@@ -121,6 +153,14 @@ public class DataController {
 		return currentVisit;
 	}
 	
+	public void setCurrentPatientProfile(PatientProfile p) {
+		currentPatientProfile = p;
+	}
+	
+	public PatientProfile getCurrentPatientProfile() {
+		return currentPatientProfile;
+	}
+	
 	// Save a patient profile
 	public void savePatientProfile(PatientProfile p) {
 		allPatients.put(p.patientID, p);
@@ -137,5 +177,35 @@ public class DataController {
 	// Retrieve a cached patient profile
 	public PatientProfile getPatientProfile(String patientID) {
 		return allPatients.get(patientID);
+	}
+	
+	// Get all message threads
+	public List<MessageThread> getAllMessageThreads() {
+		List<MessageThread> threads = new ArrayList<MessageThread>();
+		
+		for(Map.Entry<String, MessageThread> entry : allThreads.entrySet()) {
+			MessageThread thread = entry.getValue();
+			threads.add(thread);
+		}
+		
+		return threads;
+	}
+	
+	// Retrieve a cached patient profile
+	public MessageThread getMessageThread(String threadID) {
+		return allThreads.get(threadID);
+	}
+	
+	// Save a visit
+	public void saveMessageThread(MessageThread t) {
+		allThreads.put(t.threadID, t);
+		
+		String fileName = rootFolder + "threads.ser";
+		try {
+			Serializer.serialize(allThreads, fileName);
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
 	}
 }
