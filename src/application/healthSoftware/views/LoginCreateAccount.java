@@ -5,12 +5,14 @@ import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -148,17 +150,22 @@ public class LoginCreateAccount implements IScreen {
 					lastNameInput.getText().equals("") ||
 					birthdayInput.getText().equals(""))
 			{
-				System.out.println("Missing information");
+				Alert error = new Alert(AlertType.ERROR);
+				error.setHeaderText("Missing Fields");
+				error.setContentText("All fields must be completed before submitting.");
+				error.showAndWait();
 				return;
 			}
 			User tempUser = dataController.getUserByUsername(mockUser.username);
 			if(tempUser == null) {
 				dataController.saveUser(mockUser);
 				screenController.moveToScreen("loginScreen");
-				System.out.println("User account is new, creating");
 			}
 			else {
-				System.out.println("User account already exists");
+				Alert error = new Alert(AlertType.ERROR);
+				error.setHeaderText("Username Taken");
+				error.setContentText("The username you entered has already been taken, please choose another one.");
+				error.showAndWait();
 			}
 		});
 		
