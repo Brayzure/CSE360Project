@@ -78,12 +78,7 @@ public class LoginScreen implements IScreen {
 		});
 		
 		createAccount.setOnAction((e) -> {
-			if(userType.equals("patient")) {
-				screenController.moveToScreen("patientPortalCreateAccount");
-			}
-			else {
-				screenController.moveToScreen("loginCreateAccount");
-			}
+			screenController.moveToScreen("loginCreateAccount");
 		});
 		
 		return layout;

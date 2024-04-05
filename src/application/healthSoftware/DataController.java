@@ -244,6 +244,17 @@ public class DataController {
 		return allUsers.get(userID);
 	}
 	
+	// Retrieve a specific user by their ID
+	public User getUserByUsername(String username) {
+		for(Map.Entry<String, User> entry : allUsers.entrySet()) {
+			User u = entry.getValue();
+			if(u.username.equals(username)) {
+				return u;
+			}
+		}
+		return null;
+	}
+	
 	// Save a user
 	public void saveUser(User u) {
 		allUsers.put(u.userID, u);
