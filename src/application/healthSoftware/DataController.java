@@ -22,6 +22,7 @@ public class DataController {
 	
 	private Visit currentVisit;
 	private PatientProfile currentPatientProfile;
+	private User currentUser;
 	
 	private DataController() {
 		initialize();
@@ -161,22 +162,6 @@ public class DataController {
 		}
 	}
 	
-	public void setCurrentVisit(Visit v) {
-		currentVisit = v;
-	}
-	
-	public Visit getCurrentVisit() {
-		return currentVisit;
-	}
-	
-	public void setCurrentPatientProfile(PatientProfile p) {
-		currentPatientProfile = p;
-	}
-	
-	public PatientProfile getCurrentPatientProfile() {
-		return currentPatientProfile;
-	}
-	
 	// Save a patient profile
 	public void savePatientProfile(PatientProfile p) {
 		allPatients.put(p.patientID, p);
@@ -286,5 +271,29 @@ public class DataController {
 			}
 		}
 		return null;
+	}
+	
+	public void setCurrentVisit(Visit v) {
+		currentVisit = v;
+	}
+	
+	public Visit getCurrentVisit() {
+		return currentVisit;
+	}
+	
+	public void setCurrentPatientProfile(PatientProfile p) {
+		currentPatientProfile = p;
+	}
+	
+	public PatientProfile getCurrentPatientProfile() {
+		return currentPatientProfile;
+	}
+	
+	public void setCurrentUser(User u) {
+		currentUser = u;
+	}
+	
+	public User getCurrentUser() {
+		return currentUser;
 	}
 }

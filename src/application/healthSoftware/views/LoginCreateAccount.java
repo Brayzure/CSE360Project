@@ -2,12 +2,14 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.PatientProfile;
 import application.healthSoftware.data.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -92,7 +94,7 @@ public class LoginCreateAccount implements IScreen {
 		
 		// Create password controls
 		Label passwordLabel = new Label("Password: ");
-		TextField passwordInput = new TextField();
+		TextField passwordInput = new PasswordField();
 		passwordInput.setMaxWidth(200);
 		passwordInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.setPassword(newValue);
@@ -158,6 +160,13 @@ public class LoginCreateAccount implements IScreen {
 			}
 			User tempUser = dataController.getUserByUsername(mockUser.username);
 			if(tempUser == null) {
+				PatientProfile newProfile = new PatientProfile();
+				newProfile.firstName = mockUser.firstName;
+				newProfile.lastName = mockUser.lastName;
+				newProfile.birthday = mockUser.birthday;
+				
+				mockUser.generateUserID();
+				mockUser.patientProfile = newProfile;
 				dataController.saveUser(mockUser);
 				screenController.moveToScreen("loginScreen");
 			}
