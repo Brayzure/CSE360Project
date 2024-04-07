@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -48,14 +47,14 @@ public class VisitExamQuestions implements IScreen {
 		layout.getChildren().add(content);
 		
 		HBox allergiesInput = makeCenteredInputElement("Allergies");
-		TextField allergiesField = (TextField) allergiesInput.getChildren().get(0);
+		TextArea allergiesField = (TextArea) allergiesInput.getChildren().get(0);
 		
 		allergiesField.textProperty().addListener((observable, oldValue, newValue) -> {
 			allergies = newValue;
 		});
 		
 		HBox healthConcernsInput = makeCenteredInputElement("Health Concerns");
-		TextField healthConcernsField = (TextField) healthConcernsInput.getChildren().get(0);
+		TextArea healthConcernsField = (TextArea) healthConcernsInput.getChildren().get(0);
 		
 		healthConcernsField.textProperty().addListener((observable, oldValue, newValue) -> {
 			healthConcerns = newValue;
