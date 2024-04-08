@@ -2,7 +2,8 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
-import application.healthSoftware.data.PatientProfile;
+import application.healthSoftware.Util;
+import application.healthSoftware.data.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -137,6 +138,7 @@ public class VisitPatientLookup implements IScreen {
 				tempP.firstName = firstName;
 				tempP.lastName = lastName;
 				tempP.birthday = birthday;
+				tempP.patientID = Util.generateID();
 				System.out.println("Creating new profile");
 			}
 			else {
@@ -161,7 +163,11 @@ public class VisitPatientLookup implements IScreen {
 			else {
 				dataController.savePatientProfile(currentPatientProfile);
 				dataController.setCurrentPatientProfile(currentPatientProfile);
-				currentPatientProfile = null;
+			  String newVisitID = Util.generateID();
+			  Visit newVisit = new Visit(newVisitID, currentPatientProfile.patientID);
+			  newVisit.setState("VITALS");
+			  dataController.setCurrentVisit(newVisit);
+			  dataController.saveVisit(newVisit);
 				screenController.moveToScreen("visitVitals");
 			}
 		});
