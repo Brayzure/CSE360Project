@@ -31,9 +31,9 @@ public class VisitPrescriptions implements IScreen {
 		
 		for(int i = 0; i < 3; i++) {
 			Prescription p = new Prescription();
-			p.name = "Prescription " + (i + 1);
-			p.dosage = "twice a day";
-			p.duration = "four weeks";
+			p.setName("Prescription " + (i + 1));
+			p.setDosage("twice a day");
+			p.setDuration("four weeks");
 			
 			prescriptions.add(p);
 		}

@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class InsuranceInformation {
+import java.io.Serializable;
+
+public class InsuranceInformation implements Serializable {
 	//instance vars
 	String provider;
 	String groupNumber;

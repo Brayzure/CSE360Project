@@ -1,6 +1,8 @@
 package application.healthSoftware.data;
 
-public class ContactInformation {
+import java.io.Serializable;
+
+public class ContactInformation implements Serializable {
 	//instance vars
 	String phoneNumber;
 	String email;
