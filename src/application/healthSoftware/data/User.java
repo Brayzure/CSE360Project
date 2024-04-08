@@ -6,16 +6,47 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import application.healthSoftware.Util;
+
 public class User implements Serializable {
 	public String username;
 	private String passwordHash;
+	public String userType;
+	
+	public String userID;
 	
 	public String firstName;
 	public String lastName;
 	public String birthday;
 	
+	public PatientProfile patientProfile;
+	
 	public User() {
-		
+		username = "";
+		passwordHash = "";
+		userType = "";
+		firstName = "";
+		lastName = "";
+		birthday = "";
+		userID = "";
+	}
+	
+	public String toString() {
+		String out = "username=" + username
+				+ "\npasswordHash=" + passwordHash
+				+ "\nuserType=" + userType
+				+ "\nfirstName=" + firstName
+				+ "\nlastName=" + lastName
+				+ "\nbirthday=" + birthday;
+		return out;
+	}
+	
+	public void setPatientProfile(PatientProfile p) {
+		patientProfile = p;
+	}
+	
+	public void generateUserID() {
+		userID = Util.generateID();
 	}
 	
 	// Hash password before setting using SHA-256
@@ -23,8 +54,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		try {
 			passwordHash = sha256(password);
-			System.out.println("Password: " + password);
-			System.out.println("Password Hash: " + passwordHash);
 		}
 		catch(NoSuchAlgorithmException err) {
 			// We only ever use one algorithm that we know exists, so something really went wrong

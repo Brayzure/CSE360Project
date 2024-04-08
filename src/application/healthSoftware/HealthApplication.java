@@ -1,5 +1,9 @@
 package application.healthSoftware;
 
+import java.util.List;
+
+import application.healthSoftware.data.MessageThread;
+import application.healthSoftware.data.PatientProfile;
 import application.healthSoftware.data.User;
 import application.healthSoftware.data.Visit;
 import javafx.scene.Scene;
@@ -22,19 +26,6 @@ public class HealthApplication {
 		
 		
 		// Debugging steps, remove later!!
-		Visit v1 = new Visit();
-		v1.visitID = "visit1";
-		v1.patientID = "patient1";
-		Visit v2 = new Visit();
-		v2.visitID = "visit2";
-		v2.patientID = "patient1";
-		Visit v3 = new Visit();
-		v3.visitID = "visit3";
-		v3.patientID = "patient2";
-
-		dataController.saveVisit(v1);
-		dataController.saveVisit(v2);
-		dataController.saveVisit(v3);
 	}
 	
 	// Save reference to primary stage, and initialize it with defaults
