@@ -160,13 +160,18 @@ public class LoginCreateAccount implements IScreen {
 			}
 			User tempUser = dataController.getUserByUsername(mockUser.username);
 			if(tempUser == null) {
-				PatientProfile newProfile = new PatientProfile();
-				newProfile.firstName = mockUser.firstName;
-				newProfile.lastName = mockUser.lastName;
-				newProfile.birthday = mockUser.birthday;
-				
 				mockUser.generateUserID();
-				mockUser.patientProfile = newProfile;
+				
+				if(mockUser.userType.equals("patient")) {
+					PatientProfile newProfile = new PatientProfile();
+					newProfile.patientID = mockUser.userID;
+					newProfile.firstName = mockUser.firstName;
+					newProfile.lastName = mockUser.lastName;
+					newProfile.birthday = mockUser.birthday;
+					mockUser.patientProfile = newProfile;
+					dataController.savePatientProfile(newProfile);
+				}
+				
 				dataController.saveUser(mockUser);
 				screenController.moveToScreen("loginScreen");
 			}

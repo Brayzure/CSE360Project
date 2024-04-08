@@ -100,7 +100,7 @@ public class LoginScreen implements IScreen {
 			}
 			else {
 				dataController.setCurrentUser(loginUser);
-				
+        
 				switch(loginUser.userType) {
 					case "patient":
 						screenController.moveToScreen("patientHomeScreen");

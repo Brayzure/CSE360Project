@@ -1,7 +1,10 @@
 package application.healthSoftware.views;
 
+import java.util.List;
+
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -64,7 +67,7 @@ public class DoctorHomeScreen implements IScreen {
 		visitTooltipRow.getChildren().add(visitTooltip);
 		content.getChildren().add(visitTooltipRow);
 		
-		for(int i = 0; i < 5; i++) {
+		/* for(int i = 0; i < 5; i++) {
 			HBox row = new HBox();
 			row.setAlignment(Pos.CENTER);
 			row.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -76,6 +79,39 @@ public class DoctorHomeScreen implements IScreen {
 			});
 			
 			content.getChildren().add(row);
+		} */
+		
+		List<Visit> visitList = dataController.getAllVisitsWithState("FINDINGS");
+		if(visitList.isEmpty()) {
+			HBox row = new HBox();
+			row.setAlignment(Pos.CENTER);
+			row.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+			row.setMaxWidth(500);
+			row.setPrefHeight(50);
+			row.getChildren().add(new Label("No Visits"));
+			row.setOnMouseClicked((e) -> {
+				screenController.moveToScreen("visitExamFindings");
+			});
+			content.getChildren().add(row);
+		}
+		else {
+			System.out.println(visitList.getFirst().visitID);
+			for(Visit visits: visitList) {
+				PatientProfile visitingPatient = dataController.getPatientProfile(visits.patientID);
+				
+				HBox row = new HBox();
+				row.setAlignment(Pos.CENTER);
+				row.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+				row.setMaxWidth(500);
+				row.setPrefHeight(50);
+				row.getChildren().add(new Label("Patient: " + visitingPatient.lastName + ", " + visitingPatient.firstName));
+				row.setOnMouseClicked((e) -> {
+					dataController.setCurrentVisit(visits);
+					screenController.moveToScreen("visitExamFindings");
+				});
+				
+				content.getChildren().add(row);
+			}
 		}
 		
 		VBox messageContent = new VBox();

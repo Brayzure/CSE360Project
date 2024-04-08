@@ -88,7 +88,9 @@ public class ScreenController {
 		if(allScreens.containsKey(screenID)) {
 			previousScreenID = getKey(allScreens, currentScreen);
 			currentScreen = allScreens.get(screenID);
-			currentScreen.refreshData();
+			if(!previousScreenID.equals(screenID)) {
+				currentScreen.refreshData();
+			}
 			app.updateStageLayout(getCurrentScreenLayout());
 		}
 	}

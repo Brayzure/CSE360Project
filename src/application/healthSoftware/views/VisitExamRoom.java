@@ -2,10 +2,10 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -53,6 +53,9 @@ public class VisitExamRoom implements IScreen {
 		
 		Button proceedButton = new Button("Proceed");
 		proceedButton.setOnMouseClicked((e) -> {
+			Visit current = dataController.getCurrentVisit();
+			current.setState("EXAM");
+			dataController.saveVisit(current);
 			screenController.moveToScreen("visitExamQuestions");
 		});
 		HBox row = new HBox(proceedButton);
