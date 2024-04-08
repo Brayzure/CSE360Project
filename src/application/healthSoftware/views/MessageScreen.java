@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -13,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
@@ -39,13 +37,14 @@ public class MessageScreen implements IScreen {
 	DataController dataController;
 	User user = new User();
 	String threadID = new String();
-	String convertMessage;
+	String newMessage;
 	Group messageThreadGroup = new Group();
 	Text messageText;
 	
 	
 	public MessageScreen(ScreenController sc) {
 		screenController = sc;
+		dataController = DataController.getInstance();
 	}
 	
 	public void refreshData() {
@@ -54,11 +53,6 @@ public class MessageScreen implements IScreen {
 	
 	public Region getLayout() {
 		
-		TextArea messageChain = new TextArea();
-		ScrollPane messageThread = new ScrollPane(messageChain);
-		 messageThread.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		 messageThread.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		 VBox messageThreadBox = new VBox();
 		
 		
 		//All the stuff for the Compose message VBox
@@ -82,7 +76,6 @@ public class MessageScreen implements IScreen {
 		//All the stuff for the Read message VBox 
 		Label provSubjLabel = new Label();
 		Label reply = new Label("Reply");
-		Label forward = new Label("Forward");
 		Label back = new Label("Back");
 		TextArea readMessageText = new TextArea();
 		readMessageText.setMaxWidth(400);
@@ -95,16 +88,18 @@ public class MessageScreen implements IScreen {
 		ObservableList<MessageThread> providerSubject = FXCollections.observableArrayList(mess);
 		ListView<MessageThread> inboxMessageThreads = new ListView<MessageThread>(providerSubject);
 		
-		
+		ObservableList<MessageThread> mess2;
+		ListView<MessageThread> messageThread = new ListView<MessageThread>();
+		messageThread.setFocusTraversable(false);
 		
 		//An alert that will pop up if any text boxes 
 		Alert emptyTextboxes = new Alert(AlertType.NONE,"Please fill out missing information",ButtonType.OK);
 		
 		
 		//HBox for the back, reply and forward labels
-		HBox brf = new HBox();
-		brf.setSpacing(10);
-		brf.getChildren().addAll(back, reply, forward);
+		HBox br = new HBox();
+		br.setSpacing(10);
+		br.getChildren().addAll(back, reply);
 		
 		//HBox for back and send message
 		HBox bsm = new HBox();
@@ -113,7 +108,7 @@ public class MessageScreen implements IScreen {
 		
 		//VBox for the read message part of the messaging page
 		VBox readMessage = new VBox();
-		readMessage.getChildren().addAll(provSubjLabel, readMessageText, brf);
+		readMessage.getChildren().addAll(provSubjLabel, readMessageText, br);
 		
 		//VBox for the inbox part of the messaging page
 		VBox inboxBox = new VBox();
@@ -139,9 +134,19 @@ public class MessageScreen implements IScreen {
 		sendMessageButton.setText("Send Message");
 		sendMessageButton.setOnAction(new EventHandler<>() {
 			public void handle(ActionEvent event) {
+				if(!providerText.getText().isEmpty() & !subjectText.getText().isEmpty() & !sendMessageText.getText().isEmpty() ) {
 				MessageThread thread = new MessageThread();
-				thread.createMessage(sendMessageText.getText(), user);
+				newMessage = providerText.getText() + "\n" + subjectText.getText() + "\n" + sendMessageText.getText() + "\n";
+				thread.createMessage(newMessage, dataController.getCurrentUser());
 				dataController.saveMessageThread(thread);
+				sendMessageText.clear();
+				providerText.clear();
+				subjectText.clear();
+				}
+				else {
+					emptyTextboxes.show();
+				
+				}
 			}
 		});
 		
@@ -152,7 +157,7 @@ public class MessageScreen implements IScreen {
 				@Override
 				protected void updateItem(MessageThread currThread, boolean bool) {
 					super.updateItem(currThread, bool);
-					if(currThread != null) {
+					if(currThread != null && currThread.isOpen == true) {
 						setText(String.valueOf(dataController.getAllMessageThreads()));
 					}
 				}
@@ -161,14 +166,12 @@ public class MessageScreen implements IScreen {
 			}
 		});
 		
+		
 		//Event for inbox label where send message VBox is deleted and read message VBox is added
 		inboxMessageThreads.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-            	//convertMessage = String.valueOf(inboxMessageThreads.getSelectionModel().getSelectedItem());
-            	//messageThreadGroup.getChildren().addAll(dataController.getMessageThread(threadID));
-            	//messageThread.setText(dataController.getMessageThread(convertMessage));
-            	//inboxMessageThreads.getSelectionModel().getSelectedItem()
+            	 messageThread.getItems().add(inboxMessageThreads.getSelectionModel().getSelectedItem());
             	page.getChildren().remove(sendMessage);
             	page.getChildren().add(readMessage);
             }
@@ -187,8 +190,20 @@ public class MessageScreen implements IScreen {
 		resolve.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
+            	
+            	//set privet varible to store current messag thread on 
+            	//display thread  and at same time set current messaeg to mesage thread that I'm pulling up
+            	
                page.getChildren().remove(readMessage);
                page.getChildren().add(sendMessage);
+            }
+          });
+		
+		reply.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+            	//
+            	
             }
           });
 		
@@ -197,9 +212,7 @@ public class MessageScreen implements IScreen {
 		
 		//Functionality to implement
 		//Figure out search functionality
-		//Make messages stay when same user logs in
 		//Notification bell
-		//Actually send messages to people
 		//Figure out how to handle long text
 		//Reply and forwarding functions
 		
