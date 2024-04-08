@@ -138,6 +138,7 @@ public class VisitPatientLookup implements IScreen {
 				tempP.firstName = firstName;
 				tempP.lastName = lastName;
 				tempP.birthday = birthday;
+				tempP.patientID = Util.generateID();
 				System.out.println("Creating new profile");
 			}
 			else {
