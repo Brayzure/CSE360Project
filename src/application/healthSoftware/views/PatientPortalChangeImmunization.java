@@ -1,6 +1,8 @@
 package application.healthSoftware.views;
 
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.Immunization;
+import application.healthSoftware.data.PatientProfile;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,7 +27,47 @@ public class PatientPortalChangeImmunization implements IScreen {
 		
 	}
 	
+	//change to current profile later when tyler helps
+
+	
+
+		
 	public Region getLayout() {
+		
+		PatientProfile curr = new PatientProfile(); 
+		
+		//this is causing an out of bounds error
+		//set values to whats stored in the list
+		String currImmun1 = "";
+		String currImmun2 = "";
+		String currImmun3 = "";
+		String currImmun4 = "";
+		int counter = 1;
+		
+		for(Immunization i : curr.immunizations) {
+			if (counter == 1)
+			{
+				currImmun1 = curr.immunizations.get(counter).type;
+				counter++;
+			}
+			else if (counter == 2)
+			{
+				currImmun2 = curr.immunizations.get(counter).type;
+				counter++;
+			}
+			else if (counter == 3)
+			{
+				currImmun3 = curr.immunizations.get(counter).type;
+				counter++;
+			}
+			else if (counter == 4)
+			{
+				currImmun4 = curr.immunizations.get(counter).type;
+				counter++;
+			}
+		}
+
+		
 		//start tyler's skeleton
 		Label helloLabel = new Label("HELLO");
 		
@@ -56,10 +98,12 @@ public class PatientPortalChangeImmunization implements IScreen {
 		immunHistory.setFont(new Font("Arial", 40));
 		
 		//construct textfields
-		TextField immun1 = new TextField("Name of Immunization");	immun1.setPadding(new Insets(0, 0, 0, 20));
-		TextField immun2 = new TextField("Name of Immunization");	immun1.setPadding(new Insets(0, 0, 0, 20));
-		TextField immun3 = new TextField("Name of Immunization");	immun1.setPadding(new Insets(0, 0, 0, 20));
-		TextField immun4 = new TextField("Name of Immunization");	immun1.setPadding(new Insets(0, 0, 0, 20));
+		TextField immun1 = new TextField(currImmun1);	//immun1.setPadding(new Insets(0, 0, 0, 20));
+		TextField immun2 = new TextField(currImmun2);	//immun1.setPadding(new Insets(0, 0, 0, 20));
+		TextField immun3 = new TextField(currImmun3);	//immun1.setPadding(new Insets(0, 0, 0, 20));
+		TextField immun4 = new TextField(currImmun4);	//immun1.setPadding(new Insets(0, 0, 0, 20));
+		
+		immun1.setPrefSize(200, 10);		//set the sizes when doing ui cleanup with this 
 		
 		//construct button
 		Button addMore = new Button("Add More");	addMore.setPadding(new Insets(5, 45, 5, 45));
@@ -70,6 +114,7 @@ public class PatientPortalChangeImmunization implements IScreen {
 		
 		//set spacing, change later
 		mid.setAlignment(Pos.CENTER);
+		mid.setSpacing(10);
 		
 		//add chlidren
 		mid.getChildren().addAll(immun1, immun2, immun3, immun4, addMore, save);

@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class Immunization implements Serializable {
 	//instance vars
-	String type;
+	public String type;
 	String date;
 	
 	//no properties constructor
 	public Immunization() {
-		this.type = "";
+		this.type = "placeholder";
 		this.date = "";
 	}
 	

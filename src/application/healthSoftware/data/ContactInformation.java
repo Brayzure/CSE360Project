@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class ContactInformation implements Serializable {
 	//instance vars
-	String phoneNumber;
-	String email;
+	public String phoneNumber;
+	public String email;
 	
 	
 	//no properties constructor

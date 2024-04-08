@@ -1,6 +1,8 @@
 package application.healthSoftware.views;
 
+import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.PatientProfile;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,7 +27,48 @@ public class PatientPortalChangeInfo implements IScreen {
 		
 	}
 	
+	
+	private DataController dataController; {
+		dataController = DataController.getInstance();
+	};
+	
+	
+	/*PatientProfile curr;  {
+		curr = dataController.getCurrentPatientProfile();
+	};
+	*/
+	
+	//placeholder PatientProfile until i figure out how to get the current one, osmething to do with user id from User.java class??
+
+	
 	public Region getLayout() {
+		
+		PatientProfile curr = new PatientProfile();
+		
+		
+		
+		//curr = getCurrentPatientProfile(){
+			
+		//};
+		
+		
+		String currFirstName = curr.firstName; 
+		String currLastName = curr.lastName;
+		String currDob = curr.birthday;
+		String currPhoneNum = curr.contactInformation.phoneNumber;
+		
+		String currEmail = curr.contactInformation.email;
+		String currInsuranceProv = curr.insurance.provider;
+		String currGroupNum = curr.insurance.groupNumber;
+		String currMemberID = curr.insurance.memberID;
+		
+		String currPharmName = curr.pharmacy.name;
+		String currPharmAddress = curr.pharmacy.address;
+		String currPharmPhone = curr.pharmacy.phoneNumber;
+		//this is a duplicate text field in the ui, fix ui then come back and fix this.
+		String currPharmPhoneDuplicate = currPharmPhone;
+		
+		
 		//construct top
 		HBox top = new HBox();
 		
@@ -53,10 +96,10 @@ public class PatientPortalChangeInfo implements IScreen {
 				Label phoneNum = new Label("Phone Number:");
 				
 				//make text fields
-				TextField firstNameTF = new TextField();
-				TextField lastNameTF = new TextField();
-				TextField dobTF = new TextField();
-				TextField phoneNumTF = new TextField();
+				TextField firstNameTF = new TextField(currFirstName);
+				TextField lastNameTF = new TextField(currLastName);
+				TextField dobTF = new TextField(currDob);
+				TextField phoneNumTF = new TextField(currPhoneNum);
 				
 				//set spacing, adjust later
 				leftMid.setSpacing(5);
@@ -75,10 +118,10 @@ public class PatientPortalChangeInfo implements IScreen {
 				Label memberID = new Label("Member ID:");
 				
 				//make text fields
-				TextField emailTF = new TextField();
-				TextField insuranceProviderTF = new TextField();
-				TextField groupNumTF = new TextField();
-				TextField memberIDTF = new TextField();
+				TextField emailTF = new TextField(currEmail);
+				TextField insuranceProviderTF = new TextField(currInsuranceProv);
+				TextField groupNumTF = new TextField(currGroupNum);
+				TextField memberIDTF = new TextField(currMemberID);
 				
 				//set spacing, adjust later
 				midMid.setSpacing(5);
@@ -96,10 +139,10 @@ public class PatientPortalChangeInfo implements IScreen {
 				Label phoneNum2 = new Label("Phone Number:");
 				
 				//make text fields
-				TextField pharmNameTF = new TextField();
-				TextField pharmAddressTF = new TextField();
-				TextField pharmPhoneNumTF = new TextField();
-				TextField phoneNum2TF = new TextField();
+				TextField pharmNameTF = new TextField(currPharmName);
+				TextField pharmAddressTF = new TextField(currPharmAddress);
+				TextField pharmPhoneNumTF = new TextField(currPharmPhone);
+				TextField phoneNum2TF = new TextField(currPharmPhoneDuplicate);
 				
 				//set spacing, adjust later
 				rightMid.setSpacing(5);
