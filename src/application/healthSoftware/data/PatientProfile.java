@@ -20,7 +20,7 @@ public class PatientProfile implements Serializable {
 	public InsuranceInformation insurance;
 	public PharmacyInformation pharmacy;
 	public List<Immunization> immunizations;	//i will need to get size of this later for the change info i think, im not sure how the ADD MORE button will work. might take some new javafx knowledge.
-	
+	public String immunizationsString;
 	
 	public PatientProfile()
 	{

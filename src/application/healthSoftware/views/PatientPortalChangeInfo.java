@@ -3,8 +3,10 @@ package application.healthSoftware.views;
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.PatientProfile;
+import application.healthSoftware.data.User;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 
@@ -43,15 +45,16 @@ public class PatientPortalChangeInfo implements IScreen {
 	
 	public Region getLayout() {
 		
-		PatientProfile curr = new PatientProfile();
+		//Cannot read field "firstName" because "curr" is null
+			//PatientProfile curr = new PatientProfile();		
+			//curr = dataController.getCurrentPatientProfile();
+				
+		User currentUser = dataController.getCurrentUser();
 		
+		//Cannot read field "firstName" because "curr" is null
+		PatientProfile curr = currentUser.patientProfile;
 		
-		
-		//curr = getCurrentPatientProfile(){
-			
-		//};
-		
-		
+		String currPatientID = curr.patientID;
 		String currFirstName = curr.firstName; 
 		String currLastName = curr.lastName;
 		String currDob = curr.birthday;
@@ -68,6 +71,8 @@ public class PatientPortalChangeInfo implements IScreen {
 		//this is a duplicate text field in the ui, fix ui then come back and fix this.
 		String currPharmPhoneDuplicate = currPharmPhone;
 		
+		
+		String currImmuns = curr.immunizationsString;
 		
 		//construct top
 		HBox top = new HBox();
@@ -90,35 +95,48 @@ public class PatientPortalChangeInfo implements IScreen {
 			VBox leftMid = new VBox();
 			
 				//make labels
+				Label patientID = new Label("Patient ID:");
 				Label firstName = new Label("First Name:");
 				Label lastName = new Label("Last Name:");
-				Label dob = new Label("Date of Birth:");
-				Label phoneNum = new Label("Phone Number:");
+			
 				
 				//make text fields
+				TextField patientIDTF = new TextField(currPatientID);	patientIDTF.setEditable(false);
 				TextField firstNameTF = new TextField(currFirstName);
 				TextField lastNameTF = new TextField(currLastName);
-				TextField dobTF = new TextField(currDob);
-				TextField phoneNumTF = new TextField(currPhoneNum);
+		
 				
 				//set spacing, adjust later
 				leftMid.setSpacing(5);
 				
 				//add children
-				leftMid.getChildren().addAll(firstName, firstNameTF, lastName, lastNameTF, dob, dobTF, phoneNum, phoneNumTF);
+				leftMid.getChildren().addAll(patientID, patientIDTF, firstName, firstNameTF, lastName, lastNameTF);
 		
+				
+			VBox leftmidMid = new VBox();
+			
+				Label dob = new Label("Date of Birth:");
+				Label email = new Label("Email:");
+				Label phoneNum = new Label("Phone Number:");
+				
+				TextField dobTF = new TextField(currDob);
+				TextField emailTF = new TextField(currEmail);
+				TextField phoneNumTF = new TextField(currPhoneNum);
+				
+				leftmidMid.setSpacing(5);
+				leftmidMid.getChildren().addAll(dob, dobTF, email, emailTF, phoneNum, phoneNumTF);
 				
 			//construct midMid
 			VBox midMid = new VBox();
 			
 				//make labels
-				Label email = new Label("Email:");
+				
 				Label insuranceProvider = new Label("Insurance Provider:");
 				Label groupNum = new Label("Group Number:");
 				Label memberID = new Label("Member ID:");
 				
 				//make text fields
-				TextField emailTF = new TextField(currEmail);
+				
 				TextField insuranceProviderTF = new TextField(currInsuranceProv);
 				TextField groupNumTF = new TextField(currGroupNum);
 				TextField memberIDTF = new TextField(currMemberID);
@@ -127,7 +145,7 @@ public class PatientPortalChangeInfo implements IScreen {
 				midMid.setSpacing(5);
 				
 				//add children
-				midMid.getChildren().addAll(email, emailTF, insuranceProvider, insuranceProviderTF, groupNum, groupNumTF, memberID, memberIDTF);
+				midMid.getChildren().addAll(insuranceProvider, insuranceProviderTF, groupNum, groupNumTF, memberID, memberIDTF);
 				
 			//construct rightMid
 			VBox rightMid = new VBox();
@@ -148,29 +166,81 @@ public class PatientPortalChangeInfo implements IScreen {
 				rightMid.setSpacing(5);
 				
 				//add children
-				rightMid.getChildren().addAll(pharmName, pharmNameTF, pharmAddress, pharmAddressTF, pharmPhoneNum, pharmPhoneNumTF, phoneNum2, phoneNum2TF);
+				rightMid.getChildren().addAll(pharmName, pharmNameTF, pharmAddress, pharmAddressTF, pharmPhoneNum, pharmPhoneNumTF);
 			
 		//set spacing
 		mid.setAlignment(Pos.CENTER);
+		mid.setPadding(new Insets(40, 0, 0, 0));
 		mid.setSpacing(5);
 		
 		//add chlidren
-		mid.getChildren().addAll(leftMid, midMid, rightMid);
+		mid.getChildren().addAll(leftMid,leftmidMid, midMid, rightMid);
 		
 		
 		//construct bottom
-		HBox bot = new HBox();
+		VBox bot = new VBox();
 		
-		Button cont = new Button("Continue");
-		cont.setOnMouseClicked((e) -> {
+		
+			VBox immunBox = new VBox();
+			
+			Label immunLabel = new Label("Immunizations");
+			immunLabel.setPadding(new Insets(50, 0, 0, 0));
+			immunLabel.setFont(new Font("Arial", 24));
+			
+			TextArea immunText = new TextArea(currImmuns); 
+			//immunText.setPadding(new Insets(20, 20, 20, 20));
+		
+			//the immunTextArea is not coroporating
+			
+			//immunText.setPrefWidth(10);
+			immunText.setPrefColumnCount(5);
+			immunText.setPrefWidth(50);
+			
+			immunBox.setSpacing(20);
+			immunBox.setAlignment(Pos.CENTER);
+			
+			immunBox.getChildren().addAll(immunLabel, immunText);
+			
+			
+		Button save = new Button("Save");
+		
+		save.setPrefSize(200, 100);
+		save.setOnMouseClicked((e) -> {
+			//update information stored in current user
+			
+			//User currentUser = dataController.getCurrentUser();
+			//PatientProfile curr = currentUser.patientProfile;
+			
+			curr.firstName = firstNameTF.getText();
+			curr.lastName = lastNameTF.getText();
+			curr.birthday = dobTF.getText();
+			curr.contactInformation.phoneNumber = phoneNumTF.getText();
+			
+			curr.contactInformation.email = emailTF.getText();
+			curr.insurance.provider = insuranceProviderTF.getText();
+			curr.insurance.groupNumber = groupNumTF.getText();
+			curr.insurance.memberID = memberIDTF.getText();
+			
+			curr.pharmacy.name = pharmNameTF.getText();
+			curr.pharmacy.address = pharmAddressTF.getText();
+			curr.pharmacy.phoneNumber = pharmPhoneNumTF.getText();
+			//duplicate field here, finish ui stuff and add it here
+			
+			curr.immunizationsString = immunText.getText();
+
+			//double check with tyler that these two lines are correct
+			dataController.savePatientProfile(curr);
+			dataController.saveUser(currentUser);
+			
 			screenController.moveToScreen("patientHomeScreen");
 		});
 		
 		//set spacing
 		bot.setAlignment(Pos.CENTER);
+		bot.setSpacing(20);
 
 		//set children
-		bot.getChildren().addAll(cont);
+		bot.getChildren().addAll(immunBox, save);
 		
 		
 		//return
