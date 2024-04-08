@@ -23,6 +23,8 @@ public class ScreenController {
 	private HealthApplication app;
 	// Default screen we show on launch
 	private static String defaultScreen = "loginScreen";
+	// Cached instance of the data controller
+	private DataController dataController;
 	
 	public ScreenController(HealthApplication application) {
 		app = application;
@@ -30,6 +32,8 @@ public class ScreenController {
 	}
 	
 	private void initialize() {
+		dataController = DataController.getInstance();
+		
 		// Populate screen map
 		allScreens.put(LoginScreen.ScreenID, new LoginScreen(this));
 		allScreens.put(PatientHomeScreen.ScreenID, new PatientHomeScreen(this));
@@ -68,6 +72,7 @@ public class ScreenController {
 		
 		Button logout = new Button("Log Out");
 		logout.setOnMouseClicked((e) -> {
+			dataController.setCurrentUser(null);
 			moveToScreen("loginScreen");
 		});
 		HBox titleRow = new HBox(logout);
