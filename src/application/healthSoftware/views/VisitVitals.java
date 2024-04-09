@@ -52,35 +52,35 @@ public class VisitVitals implements IScreen {
 		layout.getChildren().add(content);
 		
 		HBox heightInput = makeCenteredInputElement("Height");
-		TextField heightField = (TextField) heightInput.getChildren().get(0);
+		TextField heightField = (TextField) heightInput.getChildren().get(1);
 		
 		heightField.textProperty().addListener((observable, oldValue, newValue) -> {
 			height = newValue;
 		});
 		
 		HBox weightInput = makeCenteredInputElement("Weight");
-		TextField weightField = (TextField) weightInput.getChildren().get(0);
+		TextField weightField = (TextField) weightInput.getChildren().get(1);
 		
 		weightField.textProperty().addListener((observable, oldValue, newValue) -> {
 			weight = Integer.parseInt(newValue);
 		});
 		
 		HBox bodyTempInput = makeCenteredInputElement("Body Temperature");
-		TextField bodyTempField = (TextField) bodyTempInput.getChildren().get(0);
+		TextField bodyTempField = (TextField) bodyTempInput.getChildren().get(1);
 		
 		bodyTempField.textProperty().addListener((observable, oldValue, newValue) -> {
 			bodyTemp = Double.parseDouble(newValue);
 		});
 		
 		HBox systolicInput = makeCenteredInputElement("Systolic BP");
-		TextField systolicField = (TextField) systolicInput.getChildren().get(0);
+		TextField systolicField = (TextField) systolicInput.getChildren().get(1);
 		
 		systolicField.textProperty().addListener((observable, oldValue, newValue) -> {
 			systolicBP = Integer.parseInt(newValue);
 		});
 		
 		HBox diastolicInput = makeCenteredInputElement("Diastolic BP");
-		TextField diastolicField = (TextField) diastolicInput.getChildren().get(0);
+		TextField diastolicField = (TextField) diastolicInput.getChildren().get(1);
 		
 		diastolicField.textProperty().addListener((observable, oldValue, newValue) -> {
 			diastolicBP = Integer.parseInt(newValue);
@@ -97,7 +97,7 @@ public class VisitVitals implements IScreen {
 			if((height == null || height.equals("")) || weight == 0 || bodyTemp == 0.0 || systolicBP == 0 || diastolicBP == 0) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Missing Fields");
-				error.setContentText("All fields must be completed before submitting.");
+				error.setContentText("All fields must be filled before continuing.");
 				error.showAndWait();
 				return;
 			}
@@ -118,9 +118,10 @@ public class VisitVitals implements IScreen {
 	}
 	
 	private HBox makeCenteredInputElement(String placeholder) {
+		Label label = new Label(placeholder + ": ");
 		TextField input = new TextField();
-		input.setPromptText(placeholder);
-		HBox row = new HBox(input);
+		input.setMaxWidth(200);
+		HBox row = new HBox(label, input);
 		row.setAlignment(Pos.CENTER);
 		
 		return row;

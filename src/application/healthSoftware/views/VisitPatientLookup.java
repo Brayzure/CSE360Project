@@ -128,7 +128,7 @@ public class VisitPatientLookup implements IScreen {
 			if((firstName == null || firstName.equals("")) || (lastName == null || lastName.equals("")) || (birthday == null || birthday.equals(""))) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Missing Fields");
-				error.setContentText("All fields must be completed before submitting.");
+				error.setContentText("All fields must be filled out before continuing.");
 				error.showAndWait();
 				return;
 			}

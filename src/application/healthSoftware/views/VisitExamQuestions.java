@@ -46,15 +46,17 @@ public class VisitExamQuestions implements IScreen {
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 		
-		HBox allergiesInput = makeCenteredInputElement("Allergies");
-		TextArea allergiesField = (TextArea) allergiesInput.getChildren().get(0);
+		VBox allergiesInput = makeCenteredInputElement("Allergies");
+		HBox allergiesFieldRow = (HBox) allergiesInput.getChildren().get(1);
+		TextArea allergiesField = (TextArea) allergiesFieldRow.getChildren().get(0);
 		
 		allergiesField.textProperty().addListener((observable, oldValue, newValue) -> {
 			allergies = newValue;
 		});
 		
-		HBox healthConcernsInput = makeCenteredInputElement("Health Concerns");
-		TextArea healthConcernsField = (TextArea) healthConcernsInput.getChildren().get(0);
+		VBox healthConcernsInput = makeCenteredInputElement("Health Concerns");
+		HBox healthConcernsFieldRow = (HBox) healthConcernsInput.getChildren().get(1);
+		TextArea healthConcernsField = (TextArea) healthConcernsFieldRow.getChildren().get(0);
 		
 		healthConcernsField.textProperty().addListener((observable, oldValue, newValue) -> {
 			healthConcerns = newValue;
@@ -78,12 +80,18 @@ public class VisitExamQuestions implements IScreen {
 		return layout;
 	}
 	
-	private HBox makeCenteredInputElement(String placeholder) {
+	private VBox makeCenteredInputElement(String placeholder) {
+		Label label = new Label(placeholder);
+		label.setFont(new Font(18));
+		HBox row1 = new HBox(label);
+		row1.setAlignment(Pos.CENTER);
+		
 		TextArea input = new TextArea();
 		input.setPromptText(placeholder);
-		HBox row = new HBox(input);
-		row.setAlignment(Pos.CENTER);
+		HBox row2 = new HBox(input);
+		row2.setAlignment(Pos.CENTER);
+		VBox content = new VBox(row1, row2);
 		
-		return row;
+		return content;
 	}
 }
