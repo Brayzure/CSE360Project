@@ -4,9 +4,11 @@ import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -18,9 +20,9 @@ public class VisitVitals implements IScreen {
 	private ScreenController screenController;
 	private DataController dataController;
 	
-	private int height;
+	private String height;
 	private int weight;
-	private int bodyTemp;
+	private Double bodyTemp;
 	private int systolicBP;
 	private int diastolicBP;
 	
@@ -53,7 +55,7 @@ public class VisitVitals implements IScreen {
 		TextField heightField = (TextField) heightInput.getChildren().get(0);
 		
 		heightField.textProperty().addListener((observable, oldValue, newValue) -> {
-			height = Integer.parseInt(newValue);
+			height = newValue;
 		});
 		
 		HBox weightInput = makeCenteredInputElement("Weight");
@@ -67,7 +69,7 @@ public class VisitVitals implements IScreen {
 		TextField bodyTempField = (TextField) bodyTempInput.getChildren().get(0);
 		
 		bodyTempField.textProperty().addListener((observable, oldValue, newValue) -> {
-			bodyTemp = Integer.parseInt(newValue);
+			bodyTemp = Double.parseDouble(newValue);
 		});
 		
 		HBox systolicInput = makeCenteredInputElement("Systolic BP");
@@ -92,12 +94,21 @@ public class VisitVitals implements IScreen {
 		
 		Button registerButton = new Button("Register Vitals");
 		registerButton.setOnMouseClicked((e) -> {
-			PatientVitals newPatientVitals = new PatientVitals(height, weight, bodyTemp, systolicBP, diastolicBP);
-			Visit current = dataController.getCurrentVisit();
-			current.setVitals(newPatientVitals);
-			current.setState("EXAM");
-			dataController.saveVisit(current);
-			screenController.moveToScreen("visitExamRoom");
+			if((height == null || height.equals("")) || weight == 0 || bodyTemp == 0.0 || systolicBP == 0 || diastolicBP == 0) {
+				Alert error = new Alert(AlertType.ERROR);
+				error.setHeaderText("Missing Fields");
+				error.setContentText("All fields must be completed before submitting.");
+				error.showAndWait();
+				return;
+			}
+			else {
+				PatientVitals newPatientVitals = new PatientVitals(height, weight, bodyTemp, systolicBP, diastolicBP);
+				Visit current = dataController.getCurrentVisit();
+				current.setVitals(newPatientVitals);
+				current.setState("EXAM");
+				dataController.saveVisit(current);
+				screenController.moveToScreen("visitExamRoom");
+			}
 		});
 		HBox row = new HBox(registerButton);
 		row.setAlignment(Pos.CENTER);
