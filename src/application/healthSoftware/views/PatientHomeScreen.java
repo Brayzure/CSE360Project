@@ -63,10 +63,16 @@ public class PatientHomeScreen implements IScreen {
 			screenController.moveToScreen("patientPortalChangeImmunization");
 		});
 		
-		Button createMessage = new Button("Create Message");
+		Button createMessage = new Button("Ask Question");
 		createMessage.setPadding(new Insets(5,25,20,25));
 		createMessage.setOnMouseClicked((e) -> {
-			screenController.moveToScreen("messageScreen");
+			screenController.moveToScreen("patientCreateQuestion");
+		});
+		
+		Button viewAnswers = new Button("View Answers");
+		viewAnswers.setPadding(new Insets(5,25,20,25));
+		viewAnswers.setOnMouseClicked((e) -> {
+			screenController.moveToScreen("patientViewAnswers");
 		});
 		
 		//im not sure how button handling will work in this so im not doing it until the meeting
@@ -78,7 +84,7 @@ public class PatientHomeScreen implements IScreen {
 		buttonVBox.setSpacing(20);
 		
 		//add to button vbox, set spacings later
-		buttonVBox.getChildren().addAll(changeInfo, changeImmunizations, createMessage);
+		buttonVBox.getChildren().addAll(changeInfo, changeImmunizations, createMessage, viewAnswers);
 		
 		//construct previous vists 
 		VBox visitsVBox = new VBox();

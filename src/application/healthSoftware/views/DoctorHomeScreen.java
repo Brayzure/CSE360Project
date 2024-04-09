@@ -124,10 +124,11 @@ public class DoctorHomeScreen implements IScreen {
 		row2.setPrefHeight(50);
 		
 		row2.setOnMouseClicked((e) -> {
-			screenController.moveToScreen("messageScreen");
+			screenController.moveToScreen("staffViewQuestions");
 		});
 		
-		row2.getChildren().add(new Label("View Messages"));
+		int length = dataController.getAllUnansweredQuestions().size();
+		row2.getChildren().add(new Label("View Questions (" + String.valueOf(length) + " unanswered)"));
 		
 		messageContent.getChildren().add(row2);
 		layout.getChildren().add(messageContent);
