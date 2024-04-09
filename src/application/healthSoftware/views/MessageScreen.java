@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
@@ -19,9 +20,11 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.Message;
 import application.healthSoftware.data.MessageThread;
 import application.healthSoftware.data.User;
 import javafx.scene.layout.HBox;
@@ -37,9 +40,12 @@ public class MessageScreen implements IScreen {
 	DataController dataController;
 	User user = new User();
 	String threadID = new String();
-	String newMessage;
+	//String newMessage;
 	Group messageThreadGroup = new Group();
 	Text messageText;
+	MessageThread currThread;
+	MultipleSelectionModel<MessageThread> selectionModel;
+	List<String> messString = new ArrayList<String>();
 	
 	
 	public MessageScreen(ScreenController sc) {
@@ -51,14 +57,13 @@ public class MessageScreen implements IScreen {
 		
 	}
 	
+	
+	
 	public Region getLayout() {
-		
-		
 		
 		//All the stuff for the Compose message VBox
 		TextField providerText = new TextField();
 		TextField subjectText = new TextField();
-		TextField searchMess = new TextField("Search Messages");
 		TextArea sendMessageText = new TextArea();
 		sendMessageText.setPrefWidth(400);
 		Label composeMess = new Label("Compose New Message");
@@ -68,9 +73,6 @@ public class MessageScreen implements IScreen {
 		Button sendMessageButton = new Button();
 		Button backButton = new Button();
 		backButton.setText("Back");
-		backButton.setOnMouseClicked((e) -> {
-			screenController.moveToPreviousScreen();
-		});
 		
 		
 		//All the stuff for the Read message VBox 
@@ -83,12 +85,21 @@ public class MessageScreen implements IScreen {
 		Button resolve = new Button();
 		resolve.setText("Resolve");
 		
-		//Creates a list view and array to pull up message information when a message is clicked on
+		//FIX
+		
+		/*ObservableList<MessageThread> providerSubject = FXCollections.observableArrayList(dataController.getAllMessageThreads());
+		//providerSubject.setAll(dataController.getAllMessageThreads());
+		ListView<MessageThread> inboxMessageThreads = new ListView<MessageThread>(providerSubject);
+		*/
+		
+		
+		
 		List<MessageThread> mess =  dataController.getAllMessageThreads();
 		ObservableList<MessageThread> providerSubject = FXCollections.observableArrayList(mess);
 		ListView<MessageThread> inboxMessageThreads = new ListView<MessageThread>(providerSubject);
 		
-		ObservableList<MessageThread> mess2;
+		
+		ObservableList<MessageThread> mess2 = FXCollections.observableArrayList();
 		ListView<MessageThread> messageThread = new ListView<MessageThread>();
 		messageThread.setFocusTraversable(false);
 		
@@ -99,7 +110,7 @@ public class MessageScreen implements IScreen {
 		//HBox for the back, reply and forward labels
 		HBox br = new HBox();
 		br.setSpacing(10);
-		br.getChildren().addAll(back, reply);
+		br.getChildren().addAll(back, resolve, reply);
 		
 		//HBox for back and send message
 		HBox bsm = new HBox();
@@ -108,11 +119,11 @@ public class MessageScreen implements IScreen {
 		
 		//VBox for the read message part of the messaging page
 		VBox readMessage = new VBox();
-		readMessage.getChildren().addAll(provSubjLabel, readMessageText, br);
+		readMessage.getChildren().addAll(provSubjLabel, messageThread, br);
 		
 		//VBox for the inbox part of the messaging page
 		VBox inboxBox = new VBox();
-		inboxBox.getChildren().addAll(inboxLbl, searchMess, inboxMessageThreads);
+		inboxBox.getChildren().addAll(inboxLbl, inboxMessageThreads);
 		
 		//HBox for Provider label and TextField 
 		HBox providerBox = new HBox();
@@ -130,15 +141,21 @@ public class MessageScreen implements IScreen {
 		HBox page = new HBox();
 		page.getChildren().addAll(inboxBox, sendMessage);
 		
+		backButton.setOnMouseClicked((e) -> {
+			screenController.moveToPreviousScreen();
+		});
+		
 		//Event for Send Message button where text from text fields are put in the inbox label and then cleared
 		sendMessageButton.setText("Send Message");
 		sendMessageButton.setOnAction(new EventHandler<>() {
 			public void handle(ActionEvent event) {
 				if(!providerText.getText().isEmpty() & !subjectText.getText().isEmpty() & !sendMessageText.getText().isEmpty() ) {
 				MessageThread thread = new MessageThread();
-				newMessage = providerText.getText() + "\n" + subjectText.getText() + "\n" + sendMessageText.getText() + "\n";
+				String newMessage = providerText.getText() + "\n" + subjectText.getText() + "\n" + sendMessageText.getText() + "\n";
 				thread.createMessage(newMessage, dataController.getCurrentUser());
 				dataController.saveMessageThread(thread);
+				//providerSubject.addAll(dataController.getAllMessageThreads());
+				inboxMessageThreads.getItems().addAll(dataController.getAllMessageThreads());
 				sendMessageText.clear();
 				providerText.clear();
 				subjectText.clear();
@@ -150,15 +167,21 @@ public class MessageScreen implements IScreen {
 			}
 		});
 		
+		
 		inboxMessageThreads.setCellFactory(new Callback<ListView<MessageThread>, ListCell<MessageThread>>(){
 			@Override
 			public ListCell<MessageThread> call(ListView<MessageThread> m){
 				ListCell<MessageThread> message = new ListCell<MessageThread>() {
 				@Override
-				protected void updateItem(MessageThread currThread, boolean bool) {
-					super.updateItem(currThread, bool);
-					if(currThread != null && currThread.isOpen == true) {
+				protected void updateItem(MessageThread currThread, boolean empty) {
+					super.updateItem(currThread, empty);
+					if(currThread != null && currThread.isOpen == true && !empty) {
 						setText(String.valueOf(dataController.getAllMessageThreads()));
+						//setText(dataController.getAllMessageThreads().toString());
+						//setText(currThread.messages.toString());
+						//setText(getAllMessageThreadsAsString());
+						//setText(providerSubject.toString())
+						
 					}
 				}
 				};
@@ -167,15 +190,23 @@ public class MessageScreen implements IScreen {
 		});
 		
 		
+		
+		
 		//Event for inbox label where send message VBox is deleted and read message VBox is added
 		inboxMessageThreads.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-            	 messageThread.getItems().add(inboxMessageThreads.getSelectionModel().getSelectedItem());
+            	/*MessageThread selectedThread = inboxMessageThreads.getSelectionModel().getSelectedItem();
+            	readMessageText.setText(""); 
+            	for (Message message : selectedThread.messages) {
+                    readMessageText.appendText(message.content + "\n");
+                }*/
+            	selectionModel = inboxMessageThreads.getSelectionModel();
+            	 currThread = selectionModel.getSelectedItem();
+            	 mess2.setAll(currThread);
             	page.getChildren().remove(sendMessage);
             	page.getChildren().add(readMessage);
             }
-            //dataController.getMessageThread(
           });
 		
 		//Event for back label where read message VBox is deleted and send message VBox is added
@@ -190,10 +221,9 @@ public class MessageScreen implements IScreen {
 		resolve.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-            	
-            	//set privet varible to store current messag thread on 
-            	//display thread  and at same time set current messaeg to mesage thread that I'm pulling up
-            	
+            	//set private variable to store current message thread on 
+            	//display thread  and at same time set current message to message thread that I'm pulling up
+            	currThread.resolve();
                page.getChildren().remove(readMessage);
                page.getChildren().add(sendMessage);
             }
@@ -202,7 +232,8 @@ public class MessageScreen implements IScreen {
 		reply.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-            	//
+            	//make reply page
+            	//currThread.createMessage(, dataController.getCurrentUser());
             	
             }
           });
@@ -211,12 +242,12 @@ public class MessageScreen implements IScreen {
 		
 		
 		//Functionality to implement
-		//Figure out search functionality
 		//Notification bell
 		//Figure out how to handle long text
 		//Reply and forwarding functions
 		
 		//getAllMessageThreadsForPatient specifically checks the authorID field on each thread
+		//Add date
 		
 		/*As a user, I want to be able to create threads and messages, so I can communicate with other users.
 		Acceptance Criteria:
