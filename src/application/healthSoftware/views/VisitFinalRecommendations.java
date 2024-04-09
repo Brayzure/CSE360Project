@@ -2,11 +2,11 @@ package application.healthSoftware.views;
 
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.Visit;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -17,6 +17,8 @@ public class VisitFinalRecommendations implements IScreen {
 	
 	private ScreenController screenController;
 	private DataController dataController;
+	
+	private String examRecommendations;
 	
 	public VisitFinalRecommendations(ScreenController sc) {
 		screenController = sc;
@@ -45,8 +47,22 @@ public class VisitFinalRecommendations implements IScreen {
 
 		content.getChildren().add(makeCenteredInputElement("Final Recommendations"));
 		
+		VBox examRecommendationsVBox = (VBox) content.getChildren().get(0);
+		HBox examRecommendationsHBox = (HBox) examRecommendationsVBox.getChildren().get(1);
+		TextArea examRecommendationsInput = (TextArea) examRecommendationsHBox.getChildren().get(0);
+		
+		examRecommendationsInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			examRecommendations = newValue;
+			System.out.println(examRecommendations);
+		});
+		
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
+			Visit cVisit = dataController.getCurrentVisit();
+			cVisit.setFindings(examRecommendations);
+			cVisit.setState("COMPLETE");
+			dataController.saveVisit(cVisit);
+			dataController.setCurrentVisit(null);
 			screenController.moveToScreen("doctorHomeScreen");
 		});
 		HBox row = new HBox(registerButton);

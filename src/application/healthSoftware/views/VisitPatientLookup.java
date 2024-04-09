@@ -11,15 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class VisitPatientLookup implements IScreen {
@@ -178,14 +172,5 @@ public class VisitPatientLookup implements IScreen {
 		content.getChildren().add(row);
 		
 		return layout;
-	}
-	
-	private HBox makeCenteredInputElement(String placeholder) {
-		TextField input = new TextField();
-		input.setPromptText(placeholder);
-		HBox row = new HBox(input);
-		row.setAlignment(Pos.CENTER);
-		
-		return row;
 	}
 }
