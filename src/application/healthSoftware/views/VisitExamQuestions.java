@@ -18,8 +18,8 @@ public class VisitExamQuestions implements IScreen {
 	private ScreenController screenController;
 	private DataController dataController;
 	
-	private String allergies;
-	private String healthConcerns;
+	private String allergies = "";
+	private String healthConcerns = "";
 	
 	public VisitExamQuestions(ScreenController sc) {
 		screenController = sc;

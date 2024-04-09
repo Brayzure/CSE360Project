@@ -18,7 +18,7 @@ public class VisitExamFindings implements IScreen {
 	private ScreenController screenController;
 	private DataController dataController;
 	
-	private String examFindings;
+	private String examFindings = "";
 	
 	public VisitExamFindings(ScreenController sc) {
 		screenController = sc;
