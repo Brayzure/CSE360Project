@@ -51,8 +51,10 @@ public class PatientPortalChangeInfo implements IScreen {
 				
 		User currentUser = dataController.getCurrentUser();
 		
+		
 		//Cannot read field "firstName" because "curr" is null
 		PatientProfile curr = currentUser.patientProfile;
+		
 		
 		String currPatientID = curr.patientID;
 		String currFirstName = curr.firstName; 
@@ -78,7 +80,7 @@ public class PatientPortalChangeInfo implements IScreen {
 		HBox top = new HBox();
 		
 		Label createAccountLabel = new Label("Change Information");
-		createAccountLabel.setFont(new Font("Arial", 80));
+		createAccountLabel.setFont(new Font(40));
 		
 		//set spacing
 		top.setAlignment(Pos.CENTER);
@@ -91,46 +93,62 @@ public class PatientPortalChangeInfo implements IScreen {
 		//mid will hold 3 vboxs of labels and text fields
 		HBox mid = new HBox();
 			
+		Font labelFont = new Font("Arial", 22);
+		Insets labelInsets = new Insets(0, 0, 10, 0);
+		
 			//construct first vbox
-			VBox leftMid = new VBox();
+			VBox one = new VBox();
 			
 				//make labels
-				Label patientID = new Label("Patient ID:");
-				Label firstName = new Label("First Name:");
+				Label personalInfo = new Label("Personal Information"); 
+					personalInfo.setFont(labelFont);
+					personalInfo.setPadding(labelInsets);
+				
+				Label firstName = new Label("First Name:");	
 				Label lastName = new Label("Last Name:");
-			
+				Label dob = new Label("Date of Birth:");
 				
 				//make text fields
-				TextField patientIDTF = new TextField(currPatientID);	patientIDTF.setEditable(false);
-				TextField firstNameTF = new TextField(currFirstName);
-				TextField lastNameTF = new TextField(currLastName);
-		
+				TextField firstNameTF = new TextField(currFirstName); 
+					firstNameTF.setEditable(false);
+					firstNameTF.setDisable(true);
+				TextField lastNameTF = new TextField(currLastName);	
+					lastNameTF.setEditable(false);
+					lastNameTF.setDisable(true);
+				TextField dobTF = new TextField(currDob); 
+					dobTF.setEditable(false);
+					dobTF.setDisable(true);
 				
 				//set spacing, adjust later
-				leftMid.setSpacing(5);
+				one.setSpacing(5);
 				
 				//add children
-				leftMid.getChildren().addAll(patientID, patientIDTF, firstName, firstNameTF, lastName, lastNameTF);
+				one.getChildren().addAll(personalInfo, firstName, firstNameTF, lastName, lastNameTF, dob, dobTF);
 		
 				
-			VBox leftmidMid = new VBox();
+			VBox two = new VBox();
 			
-				Label dob = new Label("Date of Birth:");
-				Label email = new Label("Email:");
+				Label contactInfo = new Label("Contact Information");
+					contactInfo.setFont(labelFont);
+					contactInfo.setPadding(labelInsets);
 				Label phoneNum = new Label("Phone Number:");
+				Label email = new Label("Email:");
 				
-				TextField dobTF = new TextField(currDob);
-				TextField emailTF = new TextField(currEmail);
+				
 				TextField phoneNumTF = new TextField(currPhoneNum);
+				TextField emailTF = new TextField(currEmail);
 				
-				leftmidMid.setSpacing(5);
-				leftmidMid.getChildren().addAll(dob, dobTF, email, emailTF, phoneNum, phoneNumTF);
+				
+				two.setSpacing(5);
+				two.getChildren().addAll(contactInfo, phoneNum, phoneNumTF, email, emailTF);
 				
 			//construct midMid
-			VBox midMid = new VBox();
+			VBox three = new VBox();
 			
 				//make labels
-				
+				Label insuranceInformation = new Label("Insurance Information");
+					insuranceInformation.setFont(labelFont);
+					insuranceInformation.setPadding(labelInsets);
 				Label insuranceProvider = new Label("Insurance Provider:");
 				Label groupNum = new Label("Group Number:");
 				Label memberID = new Label("Member ID:");
@@ -142,39 +160,42 @@ public class PatientPortalChangeInfo implements IScreen {
 				TextField memberIDTF = new TextField(currMemberID);
 				
 				//set spacing, adjust later
-				midMid.setSpacing(5);
+				three.setSpacing(5);
 				
 				//add children
-				midMid.getChildren().addAll(insuranceProvider, insuranceProviderTF, groupNum, groupNumTF, memberID, memberIDTF);
+				three.getChildren().addAll(insuranceInformation, insuranceProvider, insuranceProviderTF, groupNum, groupNumTF, memberID, memberIDTF);
 				
 			//construct rightMid
-			VBox rightMid = new VBox();
+			VBox four = new VBox();
 	
 				//make labels
+				Label pharmacyInformation = new Label("Pharmacy Information");
+					pharmacyInformation.setFont(labelFont);
+					pharmacyInformation.setPadding(labelInsets);
 				Label pharmName = new Label("Pharmacy Name:");
 				Label pharmAddress = new Label("Pharmacy Address:");
 				Label pharmPhoneNum = new Label("Pharmacy Phone:");
-				Label phoneNum2 = new Label("Phone Number:");
+				
 				
 				//make text fields
 				TextField pharmNameTF = new TextField(currPharmName);
 				TextField pharmAddressTF = new TextField(currPharmAddress);
 				TextField pharmPhoneNumTF = new TextField(currPharmPhone);
-				TextField phoneNum2TF = new TextField(currPharmPhoneDuplicate);
+				
 				
 				//set spacing, adjust later
-				rightMid.setSpacing(5);
+				four.setSpacing(5);
 				
 				//add children
-				rightMid.getChildren().addAll(pharmName, pharmNameTF, pharmAddress, pharmAddressTF, pharmPhoneNum, pharmPhoneNumTF);
+				four.getChildren().addAll(pharmacyInformation, pharmName, pharmNameTF, pharmAddress, pharmAddressTF, pharmPhoneNum, pharmPhoneNumTF);
 			
 		//set spacing
 		mid.setAlignment(Pos.CENTER);
 		mid.setPadding(new Insets(40, 0, 0, 0));
-		mid.setSpacing(5);
+		mid.setSpacing(20);
 		
 		//add chlidren
-		mid.getChildren().addAll(leftMid,leftmidMid, midMid, rightMid);
+		mid.getChildren().addAll(one, two, three, four);
 		
 		
 		//construct bottom
@@ -184,17 +205,13 @@ public class PatientPortalChangeInfo implements IScreen {
 			VBox immunBox = new VBox();
 			
 			Label immunLabel = new Label("Immunizations");
-			immunLabel.setPadding(new Insets(50, 0, 0, 0));
-			immunLabel.setFont(new Font("Arial", 24));
+			immunLabel.setPadding(new Insets(25, 0, 0, 0));
+			immunLabel.setFont(new Font("Arial", 16));
 			
 			TextArea immunText = new TextArea(currImmuns); 
-			//immunText.setPadding(new Insets(20, 20, 20, 20));
-		
-			//the immunTextArea is not coroporating
-			
-			//immunText.setPrefWidth(10);
-			immunText.setPrefColumnCount(5);
-			immunText.setPrefWidth(50);
+
+			immunText.setMaxWidth(600);
+			immunText.setPrefHeight(300);
 			
 			immunBox.setSpacing(20);
 			immunBox.setAlignment(Pos.CENTER);
