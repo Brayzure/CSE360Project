@@ -7,11 +7,7 @@ import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
@@ -95,7 +91,6 @@ public class DoctorHomeScreen implements IScreen {
 			content.getChildren().add(row);
 		}
 		else {
-			System.out.println(visitList.getFirst().visitID);
 			for(Visit visits: visitList) {
 				PatientProfile visitingPatient = dataController.getPatientProfile(visits.patientID);
 				
