@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class InsuranceInformation implements Serializable {
 	//instance vars
-	String provider;
-	String groupNumber;
-	String memberID;
+	public String provider;
+	public String groupNumber;
+	public String memberID;
 	
 	//no properties constructor
 	public InsuranceInformation()
