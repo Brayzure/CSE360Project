@@ -10,7 +10,7 @@ public class PharmacyInformation implements Serializable {
 	
 	//no properties constructor
 	public PharmacyInformation() {
-		this.name = "";
+		this.name = "placeholder";	//remove placeholder later
 		this.address = "";
 		this.phoneNumber = "";
 	}

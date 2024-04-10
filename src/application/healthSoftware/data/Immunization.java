@@ -9,7 +9,7 @@ public class Immunization implements Serializable {
 	
 	//no properties constructor
 	public Immunization() {
-		this.type = "";
+		this.type = "placeholder";
 		this.date = "";
 	}
 	
