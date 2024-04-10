@@ -1,6 +1,7 @@
 package application.healthSoftware.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Visit implements Serializable {
@@ -21,11 +22,11 @@ public class Visit implements Serializable {
 	public Visit(String inputVisitID, String inputPatientID) {
 		visitID = inputVisitID;
 		patientID = inputPatientID;
-		state = "NULL";
+		state = "NEW";
 		vitals = null;
 		allergies = "NULL";
 		healthConcerns = "NULL";
-		prescriptions = null;
+		prescriptions = new ArrayList<Prescription>();
 		recommendations = "NULL";
 		findings = "NULL";
 	}
@@ -33,11 +34,11 @@ public class Visit implements Serializable {
 	public Visit() {
 		visitID = "NULL";
 		patientID = "NULL";
-		state = "NULL";
+		state = "NEW";
 		vitals = null;
 		allergies = "NULL";
 		healthConcerns = "NULL";
-		prescriptions = null;
+		prescriptions = new ArrayList<Prescription>();
 		recommendations = "NULL";
 		findings = "NULL";
 	}

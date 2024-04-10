@@ -54,6 +54,9 @@ public class ScreenController {
 		allScreens.put(VisitPrescriptions.ScreenID, new VisitPrescriptions(this));
 		allScreens.put(VisitFinalRecommendations.ScreenID, new VisitFinalRecommendations(this));
 		allScreens.put(LoginCreateAccount.ScreenID, new LoginCreateAccount(this));
+		allScreens.put(PatientCreateQuestion.ScreenID, new PatientCreateQuestion(this));
+		allScreens.put(PatientViewAnswers.ScreenID, new PatientViewAnswers(this));
+		allScreens.put(StaffViewQuestions.ScreenID, new StaffViewQuestions(this));
 		
 		// Set default screen
 		currentScreen = allScreens.get(ScreenController.defaultScreen);
@@ -86,9 +89,13 @@ public class ScreenController {
 	public void moveToScreen(String screenID) {
 		System.out.println("Moving to Screen: " + screenID);
 		if(allScreens.containsKey(screenID)) {
-			previousScreenID = getKey(allScreens, currentScreen);
-			currentScreen = allScreens.get(screenID);
-			currentScreen.refreshData();
+			String currentScreenID = getKey(allScreens, currentScreen);
+			
+			if(!currentScreenID.equals(screenID)) {
+				previousScreenID = getKey(allScreens, currentScreen);
+				currentScreen = allScreens.get(screenID);
+				currentScreen.refreshData();
+			}
 			app.updateStageLayout(getCurrentScreenLayout());
 		}
 	}

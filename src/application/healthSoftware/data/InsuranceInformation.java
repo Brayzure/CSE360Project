@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class InsuranceInformation implements Serializable {
 	//instance vars
-	String provider;
-	String groupNumber;
-	String memberID;
+	public String provider;
+	public String groupNumber;
+	public String memberID;
 	
 	//no properties constructor
 	public InsuranceInformation()
@@ -22,5 +22,12 @@ public class InsuranceInformation implements Serializable {
 		this.provider = providerInput;
 		this.groupNumber = groupNumberInput;
 		this.memberID = memberIDInput;
+	}
+	
+	public String toString() {
+		String out = "provider=" + provider
+				+ "\ngroupNumber=" + groupNumber
+				+ "\nmemberID=" + memberID;
+		return out;
 	}
 }

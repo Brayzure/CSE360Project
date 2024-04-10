@@ -89,7 +89,6 @@ public class LoginCreateAccount implements IScreen {
 		usernameInput.setMaxWidth(200);
 		usernameInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.username = newValue;
-			System.out.println(mockUser.toString());
 		});
 		
 		// Create password controls
@@ -98,7 +97,6 @@ public class LoginCreateAccount implements IScreen {
 		passwordInput.setMaxWidth(200);
 		passwordInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.setPassword(newValue);
-			System.out.println(mockUser.toString());
 		});
 		
 		// Create password controls
@@ -107,7 +105,6 @@ public class LoginCreateAccount implements IScreen {
 		firstNameInput.setMaxWidth(200);
 		firstNameInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.firstName = newValue;
-			System.out.println(mockUser.toString());
 		});
 		
 		// Create password controls
@@ -116,7 +113,6 @@ public class LoginCreateAccount implements IScreen {
 		lastNameInput.setMaxWidth(200);
 		lastNameInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.lastName = newValue;
-			System.out.println(mockUser.toString());
 		});
 		
 		// Create password controls
@@ -125,7 +121,6 @@ public class LoginCreateAccount implements IScreen {
 		birthdayInput.setMaxWidth(200);
 		birthdayInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			mockUser.birthday = newValue;
-			System.out.println(mockUser.toString());
 		});
 		
 		HBox inputLine = new HBox(usernameLabel, usernameInput);
@@ -160,15 +155,49 @@ public class LoginCreateAccount implements IScreen {
 			}
 			User tempUser = dataController.getUserByUsername(mockUser.username);
 			if(tempUser == null) {
-				PatientProfile newProfile = new PatientProfile();
-				newProfile.firstName = mockUser.firstName;
-				newProfile.lastName = mockUser.lastName;
-				newProfile.birthday = mockUser.birthday;
-				
 				mockUser.generateUserID();
-				mockUser.patientProfile = newProfile;
+				String nextScreen = "loginScreen";
+				
+				// PatientProfile handling
+				if(mockUser.userType.equals("patient")) {
+					nextScreen = "patientPortalCreateAccount";
+					// Search for pre-existing matching profile
+					PatientProfile p = dataController.searchForPatientProfile(mockUser.firstName, mockUser.lastName, mockUser.birthday);
+					// Match found, set and alter user ID
+					if(p != null) {
+						System.out.println("Found patient profile, seeing if it's already associated with an account");
+						User u = dataController.getUser(p.patientID);
+						if(u != null) {
+							System.out.println("User account found that carries this patient profile");
+							Alert error = new Alert(AlertType.ERROR);
+							error.setHeaderText("Account Error");
+							error.setContentText("Name and birthday already associated with a patient account, please log in.");
+							error.showAndWait();
+							return;
+						}
+						else {
+							System.out.println("Patient profile not associated with an existing account, continuing.");
+							mockUser.patientProfile = p;
+							mockUser.userID = p.patientID;
+						}
+						
+					}
+					// Match not found, initialize
+					else {
+						System.out.println("No patient profile found, initializing.");
+						PatientProfile newProfile = new PatientProfile();
+						newProfile.patientID = mockUser.userID;
+						newProfile.firstName = mockUser.firstName;
+						newProfile.lastName = mockUser.lastName;
+						newProfile.birthday = mockUser.birthday;
+						mockUser.patientProfile = newProfile;
+						dataController.savePatientProfile(newProfile);
+					}
+				}
+				
 				dataController.saveUser(mockUser);
-				screenController.moveToScreen("loginScreen");
+				dataController.setCurrentPatientProfile(mockUser.patientProfile);
+				screenController.moveToScreen(nextScreen);
 			}
 			else {
 				Alert error = new Alert(AlertType.ERROR);

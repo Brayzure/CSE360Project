@@ -65,10 +65,11 @@ public class NurseHomeScreen implements IScreen {
 		row2.setPrefHeight(50);
 		
 		row2.setOnMouseClicked((e) -> {
-			screenController.moveToScreen("messageScreen");
+			screenController.moveToScreen("staffViewQuestions");
 		});
 		
-		row2.getChildren().add(new Label("View Messages"));
+		int length = dataController.getAllUnansweredQuestions().size();
+		row2.getChildren().add(new Label("View Questions (" + String.valueOf(length) + " unanswered)"));
 		content.getChildren().add(row);
 		content.getChildren().add(row2);		
 		

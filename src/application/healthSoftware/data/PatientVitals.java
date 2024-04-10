@@ -3,21 +3,21 @@ package application.healthSoftware.data;
 import java.io.Serializable;
 
 public class PatientVitals implements Serializable {
-	private int height;
+	private String height;
 	private int weight;
-	private int temperature;
+	private Double temperature;
 	private int systolicBP;
 	private int diastolicBP;
 	
 	public PatientVitals() {
-		height = 0;
+		height = "";
 		weight = 0;
-		temperature = 0;
+		temperature = 0.0;
 		systolicBP = 0;
 		diastolicBP = 0;
 	}
 	
-	public PatientVitals(int heightInput, int weightInput, int tempInput, int sBPInput, int dBPInput) {
+	public PatientVitals(String heightInput, int weightInput, Double tempInput, int sBPInput, int dBPInput) {
 		height = heightInput;
 		weight = weightInput;
 		temperature = tempInput;
@@ -25,12 +25,12 @@ public class PatientVitals implements Serializable {
 		diastolicBP = dBPInput;
 	}
 	
-	public void setHeight(int nHeight) {
+	public void setHeight(String nHeight) {
 		height = nHeight;
 		return;
 	}
 	
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 	
@@ -43,12 +43,12 @@ public class PatientVitals implements Serializable {
 		return weight;
 	}
 	
-	public void setTemp(int nTemp) {
+	public void setTemp(Double nTemp) {
 		temperature = nTemp;
 		return;
 	}
 	
-	public int getTemp() {
+	public Double getTemp() {
 		return temperature;
 	}
 	

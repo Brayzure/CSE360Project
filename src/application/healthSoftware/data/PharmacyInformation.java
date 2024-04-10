@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class PharmacyInformation implements Serializable {
 	//instance vars
-	String name;
-	String address;
-	String phoneNumber;
+	public String name;
+	public String address;
+	public String phoneNumber;
 	
 	//no properties constructor
 	public PharmacyInformation() {
-		this.name = "";
+		this.name = "placeholder";	//remove placeholder later
 		this.address = "";
 		this.phoneNumber = "";
 	}
@@ -21,5 +21,12 @@ public class PharmacyInformation implements Serializable {
 		this.name = nameInput;
 		this.address = addressInput;
 		this.phoneNumber = phoneNumberInput;
+	}
+	
+	public String toString() {
+		String out = "pharmacyName=" + name
+				+ "\npharmacyAddress=" + address
+				+ "\npharmacyPhone=" + phoneNumber;
+		return out;
 	}
 }
