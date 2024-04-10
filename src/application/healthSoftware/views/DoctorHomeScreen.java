@@ -91,7 +91,6 @@ public class DoctorHomeScreen implements IScreen {
 			content.getChildren().add(row);
 		}
 		else {
-			System.out.println(visitList.getFirst().visitID);
 			for(Visit visits: visitList) {
 				PatientProfile visitingPatient = dataController.getPatientProfile(visits.patientID);
 				
