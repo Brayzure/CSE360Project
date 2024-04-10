@@ -77,14 +77,18 @@ public class nurseSummary implements IScreen {
 		TableView<Visit> table = new TableView<Visit>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setMaxWidth(500);
+		table.setItems(visits);
 
-		TableColumn<Visit, List<Prescription>> prescriptionsCol = new TableColumn<Visit, List<Prescription>>("Prescriptions");
-		prescriptionsCol.setCellValueFactory(new PropertyValueFactory<Visit, List<Prescription>>("prescriptions"));
+		TableColumn<Visit, String> prescriptionsCol = new TableColumn<Visit, String>("Prescriptions");
+		prescriptionsCol.setCellValueFactory(new PropertyValueFactory<Visit, String>("prescriptions"));
 		TableColumn<Visit, String> healthConcernsCol = new TableColumn<Visit, String>("Health Concerns");
 		healthConcernsCol.setCellValueFactory(new PropertyValueFactory<Visit, String>("healthConcerns"));
 		
 		table.getColumns().setAll(prescriptionsCol, healthConcernsCol);
-		table.setItems(FXCollections.observableArrayList(getCurrentPatientVisits()));
+		List<Visit> visitList = getCurrentPatientVisits();
+		if(visitList.size() > 1) {
+			table.setItems(FXCollections.observableArrayList(visitList));
+		}
 		content.getChildren().add(table);
 		
 		Button homeButton = new Button("Return to Home Screen");
