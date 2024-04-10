@@ -80,13 +80,14 @@ public class nurseSummary implements IScreen {
 		table.setItems(visits);
 
 		TableColumn<Visit, String> prescriptionsCol = new TableColumn<Visit, String>("Prescriptions");
-		prescriptionsCol.setCellValueFactory(new PropertyValueFactory<Visit, String>("prescriptions"));
+		prescriptionsCol.setCellValueFactory(new PropertyValueFactory<Visit, String>("prescriptionString"));
 		TableColumn<Visit, String> healthConcernsCol = new TableColumn<Visit, String>("Health Concerns");
 		healthConcernsCol.setCellValueFactory(new PropertyValueFactory<Visit, String>("healthConcerns"));
 		
 		table.getColumns().setAll(prescriptionsCol, healthConcernsCol);
 		List<Visit> visitList = getCurrentPatientVisits();
 		if(visitList.size() > 1) {
+			visitList.remove(visitList.size() - 1);
 			table.setItems(FXCollections.observableArrayList(visitList));
 		}
 		content.getChildren().add(table);

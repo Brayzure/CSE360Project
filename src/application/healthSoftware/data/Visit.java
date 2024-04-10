@@ -3,6 +3,7 @@ package application.healthSoftware.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Visit implements Serializable {
 	// Change whenever we DELETE a field or we CHANGE its type
@@ -18,6 +19,7 @@ public class Visit implements Serializable {
 	private List<Prescription> prescriptions;
 	private String recommendations;
 	private String findings;
+	private String prescriptionString;
 	
 	public Visit(String inputVisitID, String inputPatientID) {
 		visitID = inputVisitID;
@@ -86,6 +88,7 @@ public class Visit implements Serializable {
 	
 	public void appendPrescription(Prescription nPrescription) {
 		prescriptions.add(nPrescription);
+		setPrescriptionString();
 		return;
 	}
 	
@@ -109,5 +112,15 @@ public class Visit implements Serializable {
 	
 	public String getFindings() {
 		return findings;
+	}
+	
+	public void setPrescriptionString() {
+		prescriptionString = prescriptions.stream().map((e) -> { return e.getName(); }).collect(Collectors.joining(", "));
+		System.out.println(prescriptionString);
+		return;
+	}
+	
+	public String getPrescriptionString() {
+		return prescriptionString;
 	}
 }
