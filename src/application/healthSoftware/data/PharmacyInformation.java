@@ -22,4 +22,11 @@ public class PharmacyInformation implements Serializable {
 		this.address = addressInput;
 		this.phoneNumber = phoneNumberInput;
 	}
+	
+	public String toString() {
+		String out = "pharmacyName=" + name
+				+ "\npharmacyAddress=" + address
+				+ "\npharmacyPhone=" + phoneNumber;
+		return out;
+	}
 }

@@ -1,8 +1,11 @@
 package application.healthSoftware.views;
 
+import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
+import application.healthSoftware.data.PatientProfile;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 
@@ -14,134 +17,190 @@ import javafx.geometry.Pos;
 public class PatientPortalCreateAccount implements IScreen {
 	public static String ScreenID = "patientPortalCreateAccount";
 	
-	ScreenController screenController;
-	
+	private ScreenController screenController;
+	private DataController dataController;
+	private PatientProfile currentPatientProfile;
+	private String phoneNumberValue = "";
+	private String emailValue = "";
+	private String providerValue = "";
+	private String groupValue = "";
+	private String memberValue = "";
+	private String pharmacyNameValue = "";
+	private String pharmacyPhoneValue = "";
+	private String pharmacyAddressValue = "";
+	private String immunizationsValue = "";
 	
 	public PatientPortalCreateAccount(ScreenController sc) {
 		screenController = sc;
+		dataController = DataController.getInstance();
 	}
 	
 	public void refreshData() {
+		PatientProfile p = dataController.getCurrentPatientProfile();
+		currentPatientProfile = p;
+		if(p == null) {
+			return;
+		}
 		
+		phoneNumberValue = p.contactInformation.phoneNumber;
+		emailValue = p.contactInformation.email;
+		providerValue = p.insurance.provider;
+		groupValue = p.insurance.groupNumber;
+		memberValue = p.insurance.memberID;
+		pharmacyNameValue = p.pharmacy.name;
+		pharmacyAddressValue = p.pharmacy.address;
+		pharmacyPhoneValue = p.pharmacy.phoneNumber;
+		immunizationsValue = p.immunizationsString;
 	}
 	
 	public Region getLayout() {
-		//start tyler's skeleton
-		Label helloLabel = new Label("HELLO");
+		VBox layout = new VBox();
+		layout.setSpacing(35);
 		
-		Button logoutButton = new Button("LOG OUT");
+		/*
+		 * Title
+		 */
+		Label title = new Label("Patient Profile");
+		title.setFont(new Font(40));
+		HBox titleRow = new HBox(title);
+		titleRow.setAlignment(Pos.CENTER);
 		
-		logoutButton.setOnAction(e -> {
+		/*
+		 * Input fields
+		 */
+		Label infoTitle = new Label("Personal Information");
+		infoTitle.setFont(new Font(20));
+		Label firstNameLabel = new Label("First Name");
+		TextField firstNameInput = new TextField(currentPatientProfile.firstName);
+		firstNameInput.setDisable(true);
+		VBox firstName = new VBox(firstNameLabel, firstNameInput);
+		Label lastNameLabel = new Label("Last Name");
+		TextField lastNameInput = new TextField(currentPatientProfile.lastName);
+		lastNameInput.setDisable(true);
+		VBox lastName = new VBox(lastNameLabel, lastNameInput);
+		Label birthdayLabel = new Label("Birthday");
+		TextField birthdayInput = new TextField(currentPatientProfile.birthday);
+		birthdayInput.setDisable(true);
+		VBox birthday = new VBox(birthdayLabel, birthdayInput);
+		
+		VBox personalInformationSection = new VBox(infoTitle, firstName, lastName, birthday);
+		personalInformationSection.setSpacing(20);
+		personalInformationSection.setMaxWidth(220);
+		
+
+		Label contactTitle = new Label("Contact Information");
+		contactTitle.setFont(new Font(20));
+		Label phoneLabel = new Label("Phone Number");
+		TextField phoneInput = new TextField(currentPatientProfile.contactInformation.phoneNumber);
+		phoneInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			phoneNumberValue = newValue;
+		});
+		VBox phone = new VBox(phoneLabel, phoneInput);
+		Label emailLabel = new Label("Email");
+		TextField emailInput = new TextField(currentPatientProfile.contactInformation.email);
+		emailInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			emailValue = newValue;
+		});
+		VBox email = new VBox(emailLabel, emailInput);
+		
+		VBox contactInformationSection = new VBox(contactTitle, phone, email);
+		contactInformationSection.setSpacing(20);
+		contactInformationSection.setMaxWidth(220);
+
+		Label insuranceTitle = new Label("Insurance Information");
+		insuranceTitle.setFont(new Font(20));
+		Label providerLabel = new Label("Provider");
+		TextField providerInput = new TextField(currentPatientProfile.insurance.provider);
+		providerInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			providerValue = newValue;
+		});
+		VBox provider = new VBox(providerLabel, providerInput);
+		Label groupLabel = new Label("Group Number");
+		TextField groupInput = new TextField(currentPatientProfile.insurance.groupNumber);
+		groupInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			groupValue = newValue;
+		});
+		VBox group = new VBox(groupLabel, groupInput);
+		Label memberLabel = new Label("Member ID");
+		TextField memberInput = new TextField(currentPatientProfile.insurance.memberID);
+		memberInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			memberValue = newValue;
+		});
+		VBox member = new VBox(memberLabel, memberInput);
+		
+		VBox insuranceInformationSection = new VBox(insuranceTitle, provider, group, member);
+		insuranceInformationSection.setSpacing(20);
+		insuranceInformationSection.setMaxWidth(220);
+
+		Label pharmacyTitle = new Label("Pharmacy Information");
+		pharmacyTitle.setFont(new Font(20));
+		Label nameLabel = new Label("Pharmacy Name");
+		TextField nameInput = new TextField(currentPatientProfile.pharmacy.name);
+		nameInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			pharmacyNameValue = newValue;
+		});
+		VBox name = new VBox(nameLabel, nameInput);
+		Label addressLabel = new Label("Pharmacy Address");
+		TextField addressInput = new TextField(currentPatientProfile.pharmacy.address);
+		addressInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			pharmacyAddressValue = newValue;
+		});
+		VBox address = new VBox(addressLabel, addressInput);
+		Label pharmacyPhoneLabel = new Label("Pharmacy Phone");
+		TextField pharmacyPhoneInput = new TextField(currentPatientProfile.pharmacy.phoneNumber);
+		pharmacyPhoneInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			pharmacyPhoneValue = newValue;
+		});
+		VBox pharmacyPhone = new VBox(pharmacyPhoneLabel, pharmacyPhoneInput);
+		
+		VBox pharmacyInformationSection = new VBox(pharmacyTitle, name, address, pharmacyPhone);
+		pharmacyInformationSection.setSpacing(20);
+		pharmacyInformationSection.setMaxWidth(220);
+		
+		
+		HBox inputSection = new HBox(personalInformationSection, contactInformationSection, insuranceInformationSection, pharmacyInformationSection);
+		inputSection.setAlignment(Pos.CENTER);
+		inputSection.setSpacing(20);
+		
+		/*
+		 * Immunizations
+		 */
+		Label immunizationsLabel = new Label("Immunizations");
+		TextArea immunizationsInput = new TextArea(currentPatientProfile.immunizationsString);
+		immunizationsInput.textProperty().addListener((observable, oldValue, newValue) -> {
+			immunizationsValue = newValue;
+		});
+		immunizationsInput.setMaxWidth(500);
+		immunizationsInput.setPrefHeight(250);
+		VBox immunizations = new VBox(immunizationsLabel, immunizationsInput);
+		HBox immunizationsRow = new HBox(immunizations);
+		immunizationsRow.setAlignment(Pos.CENTER);
+		
+		/*
+		 * Submit button
+		 */
+		Button submitButton = new Button("Submit");
+		submitButton.setOnMouseClicked((e) -> {
+			currentPatientProfile.updateContact(phoneNumberValue, emailValue);
+			currentPatientProfile.updateInsurance(providerValue, groupValue, memberValue);
+			currentPatientProfile.updatePharmacy(pharmacyNameValue, pharmacyAddressValue, pharmacyPhoneValue);
+			currentPatientProfile.immunizationsString = immunizationsValue;
+			System.out.println(currentPatientProfile.toString());
+			dataController.savePatientProfile(currentPatientProfile);
 			screenController.moveToScreen("loginScreen");
 		});
-		
-
-		//construct top
-		HBox top = new HBox();
-		
-		Label createAccountLabel = new Label("Create Account");
-		createAccountLabel.setFont(new Font("Arial", 80));
-		
-		//set spacing
-		top.setAlignment(Pos.CENTER);
-		
-		//add children
-		top.getChildren().addAll(createAccountLabel);
-		
-	
-		//construct mid
-		//mid will hold 3 vboxs of labels and text fields
-		HBox mid = new HBox();
-			
-			//construct first vbox
-			VBox leftMid = new VBox();
-			
-				//make labels
-				Label firstName = new Label("First Name:");
-				Label lastName = new Label("Last Name:");
-				Label dob = new Label("Date of Birth:");
-				Label phoneNum = new Label("Phone Numebr:");
-				
-				//make text fields
-				TextField firstNameTF = new TextField();
-				TextField lastNameTF = new TextField();
-				TextField dobTF = new TextField();
-				TextField phoneNumTF = new TextField();
-				
-				//set spacing, adjust later
-				leftMid.setSpacing(5);
-				
-				//add chlidren
-				leftMid.getChildren().addAll(firstName, firstNameTF, lastName, lastNameTF, dob, dobTF, phoneNum, phoneNumTF);
-		
-				
-			//construct midMid
-			VBox midMid = new VBox();
-			
-				//make labels
-				Label email = new Label("First Name:");
-				Label insuranceProvider = new Label("Last Name:");
-				Label groupNum = new Label("Date of Birth:");
-				Label pharmName = new Label("Phone Numebr:");
-				
-				//make text fields
-				TextField emailTF = new TextField();
-				TextField insuranceProviderTF = new TextField();
-				TextField groupNumTF = new TextField();
-				TextField pharmNameTF = new TextField();
-				
-				//set spacing, adjust later
-				midMid.setSpacing(5);
-				
-				//add chlidren
-				midMid.getChildren().addAll(email, emailTF, insuranceProvider, insuranceProviderTF, groupNum, groupNumTF, pharmName, pharmNameTF);
-				
-			//construct rightMid
-			VBox rightMid = new VBox();
-	
-				//make labels
-				Label pharmName2 = new Label("First Name:");
-				Label memberID = new Label("Last Name:");
-				Label pharmAddress = new Label("Date of Birth:");
-				Label pharmPhoneNum = new Label("Phone Numebr:");
-				
-				//make text fields
-				TextField pharmName2TF = new TextField();
-				TextField memberIDTF = new TextField();
-				TextField pharmAddressTF = new TextField();
-				TextField pharmPhoneNumTF = new TextField();
-				
-				//set spacing, adjust later
-				rightMid.setSpacing(5);
-				
-				//add chlidren
-				rightMid.getChildren().addAll(pharmName2, pharmName2TF, memberID, memberIDTF, pharmAddress, pharmAddressTF, pharmPhoneNum, pharmPhoneNumTF);
-			
-		//set spacing
-		mid.setAlignment(Pos.CENTER);
-		mid.setSpacing(5);
-		
-		//add chlidren
-		mid.getChildren().addAll(leftMid, midMid, rightMid);
+		HBox submitRow = new HBox(submitButton);
+		submitRow.setAlignment(Pos.CENTER);
 		
 		
-		//construct bottom
-		HBox bot = new HBox();
-		
-		Button cont = new Button("Continue");
-		cont.setOnMouseClicked((e) -> {
-			screenController.moveToScreen("patientPortalCreateImmunization");
-		});
-		
-		//set spacing
-		bot.setAlignment(Pos.CENTER);
-
-		//set children
-		bot.getChildren().addAll(cont);
+		layout.getChildren().add(titleRow);
+		layout.getChildren().add(inputSection);
+		layout.getChildren().add(immunizationsRow);
+		layout.getChildren().add(submitRow);
 		
 		
-		//return
-		return new VBox(top, mid, bot);
+		
+		return layout;
 	}
 }
 
