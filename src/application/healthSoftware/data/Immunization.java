@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Immunization implements Serializable {
 	//instance vars
-	String type;
-	String date;
+	public String type;
+	public String date;
 	
 	//no properties constructor
 	public Immunization() {
