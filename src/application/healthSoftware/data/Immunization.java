@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Immunization implements Serializable {
 	//instance vars
 	public String type;
-	String date;
+	public String date;
 	
 	//no properties constructor
 	public Immunization() {

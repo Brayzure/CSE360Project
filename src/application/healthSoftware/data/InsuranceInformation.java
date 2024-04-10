@@ -23,4 +23,11 @@ public class InsuranceInformation implements Serializable {
 		this.groupNumber = groupNumberInput;
 		this.memberID = memberIDInput;
 	}
+	
+	public String toString() {
+		String out = "provider=" + provider
+				+ "\ngroupNumber=" + groupNumber
+				+ "\nmemberID=" + memberID;
+		return out;
+	}
 }

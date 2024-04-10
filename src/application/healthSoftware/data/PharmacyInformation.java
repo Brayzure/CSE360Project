@@ -8,7 +8,6 @@ public class PharmacyInformation implements Serializable {
 	public String address;
 	public String phoneNumber;
 	
-	
 	//no properties constructor
 	public PharmacyInformation() {
 		this.name = "placeholder";	//remove placeholder later
@@ -22,5 +21,12 @@ public class PharmacyInformation implements Serializable {
 		this.name = nameInput;
 		this.address = addressInput;
 		this.phoneNumber = phoneNumberInput;
+	}
+	
+	public String toString() {
+		String out = "pharmacyName=" + name
+				+ "\npharmacyAddress=" + address
+				+ "\npharmacyPhone=" + phoneNumber;
+		return out;
 	}
 }

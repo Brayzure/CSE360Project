@@ -47,7 +47,19 @@ public class PatientProfile implements Serializable {
 		this.immunizations = immunsInput;
 	}
 	
+
 	
+	public String toString() {
+		String out = "patientID=" + patientID
+				+ "\nfirstName=" + firstName
+				+ "\nlastName=" + lastName
+				+ "\nbirthday=" + birthday
+				+ "\n" + contactInformation.toString()
+				+ "\n" + insurance.toString()
+				+ "\n" + pharmacy.toString()
+				+ "\nimmunizations=" + immunizationsString;
+		return out;
+	}
 	
 	
 	//IMPORTANT TYLER READ THIS PLEASE
