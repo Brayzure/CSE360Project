@@ -1,16 +1,23 @@
 package application.healthSoftware.views;
 
+import java.util.Optional;
+
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.Prescription;
+import application.healthSoftware.data.Visit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -29,15 +36,15 @@ public class VisitPrescriptions implements IScreen {
 		screenController = sc;
 		dataController = DataController.getInstance();
 		
-		for(int i = 0; i < 3; i++) {
+		/* for(int i = 0; i < 3; i++) {
 			Prescription p = new Prescription();
 			p.setName("Prescription " + (i + 1));
 			p.setDosage("twice a day");
 			p.setDuration("four weeks");
 			
 			prescriptions.add(p);
-		}
-	}
+		} */
+	} 
 	
 	public void refreshData() {
 		
@@ -86,15 +93,67 @@ public class VisitPrescriptions implements IScreen {
 		CheckBox skipPrescriptions = new CheckBox("No prescriptions needed");
 		checkRow.getChildren().add(skipPrescriptions);
 		content.getChildren().add(checkRow);
-
+		
+		Button pButton = new Button("Add New Prescription");
+		pButton.setOnMouseClicked((e) -> {
+			Visit cVisit = dataController.getCurrentVisit();
+			Dialog<Prescription> pDialog = new Dialog<Prescription>();
+			pDialog.setTitle("Add Prescription");
+			pDialog.setHeaderText("Please input data to create a new prescription");
+			DialogPane pDialogPane = pDialog.getDialogPane();
+			pDialogPane.getButtonTypes().addAll(ButtonType.FINISH, ButtonType.CANCEL);
+			TextField nameField = new TextField();
+			nameField.setPromptText("Medication Name");
+			TextField dosageField = new TextField();
+			dosageField.setPromptText("Medication Dosage");
+			TextField durationField = new TextField();
+			durationField.setPromptText("Prescription Duration");
+			pDialogPane.setContent(new VBox(10, nameField, dosageField, durationField));
+			pDialog.setResultConverter((ButtonType button) -> {
+				if(button == ButtonType.FINISH) {
+					return new Prescription(nameField.getText(), dosageField.getText(), durationField.getText());
+				}
+				return null;
+			});
+			Optional<Prescription> result = pDialog.showAndWait();
+			System.out.println(result);
+			result.ifPresent((Prescription newPres) -> {
+				cVisit.appendPrescription(newPres);
+				System.out.println("Prescription Added");
+				dataController.saveVisit(cVisit);
+				table.setItems(FXCollections.observableArrayList(cVisit.getPrescriptions()));
+			});
+		});
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
+			Visit nVisit = dataController.getCurrentVisit();
+			nVisit.setState("RECOMMENDATIONS");
+			dataController.saveVisit(nVisit);
 			screenController.moveToScreen("visitFinalRecommendations");
 		});
-		HBox row = new HBox(registerButton);
+		HBox row = new HBox(pButton, registerButton);
 		row.setAlignment(Pos.CENTER);
 		content.getChildren().add(row);
 		
 		return layout;
 	}
+	
+	/* public Dialog<Prescription> prescriptionDialog() {
+		Dialog<Prescription> pDialog = new Dialog<>();
+		pDialog.setTitle("Add Prescription");
+		pDialog.setHeaderText("Please input data to create a new prescription");
+		DialogPane pDialogPane = pDialog.getDialogPane();
+		pDialogPane.getButtonTypes().addAll(ButtonType.FINISH, ButtonType.CANCEL);
+		TextField nameField = new TextField("Medication Name");
+		TextField dosageField = new TextField("Medication Dosage");
+		TextField durationField = new TextField("Prescription Duration");
+		pDialogPane.setContent(new VBox(10, nameField, dosageField, durationField));
+		pDialog.setResultConverter((ButtonType button) -> {
+			if(button == ButtonType.OK) {
+				return new Prescription(nameField.getText(), dosageField.getText(), durationField.getText());
+			}
+			return null;
+		});
+		return pDialog;
+	} */
 }

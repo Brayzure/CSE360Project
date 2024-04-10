@@ -19,6 +19,7 @@ public class DataController {
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
 	private Map<String, MessageThread> allThreads = new LinkedHashMap<>();
 	private Map<String, User> allUsers = new LinkedHashMap<>();
+	private Map<String, Question> allQuestions = new LinkedHashMap<>();
 	
 	private Visit currentVisit;
 	private PatientProfile currentPatientProfile;
@@ -91,6 +92,20 @@ public class DataController {
 		catch(ClassNotFoundException err) {
 			err.printStackTrace();
 		}
+		
+		// Load all questions into memory
+		try {
+			allQuestions = (Map<String, Question>) Serializer.deserialize(rootFolder + "questions.ser");
+		}
+		catch(FileNotFoundException err) {
+			// File doesn't exist, that's alright!
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+		catch(ClassNotFoundException err) {
+			err.printStackTrace();
+		}
 	}
 	
 	public static DataController getInstance() {
@@ -142,8 +157,6 @@ public class DataController {
 			if(visit.getState().equals(state)) {
 				visits.add(visit);
 			}
-			else {
-			}
 		}
 		
 		return visits;
@@ -156,6 +169,19 @@ public class DataController {
 		String fileName = rootFolder + "visits.ser";
 		try {
 			Serializer.serialize(allVisits, fileName);
+		}
+		catch(IOException err) {
+			err.printStackTrace();
+		}
+	}
+	
+	// Save a visit
+	public void saveQuestion(Question q) {
+		allQuestions.put(q.questionID, q);
+		
+		String fileName = rootFolder + "questions.ser";
+		try {
+			Serializer.serialize(allQuestions, fileName);
 		}
 		catch(IOException err) {
 			err.printStackTrace();
@@ -178,6 +204,39 @@ public class DataController {
 	// Retrieve a cached patient profile
 	public PatientProfile getPatientProfile(String patientID) {
 		return allPatients.get(patientID);
+	}
+	
+	// Retrieve a cached patient profile
+	public Question getQuestion(String questionID) {
+		return allQuestions.get(questionID);
+	}
+	
+	// Get all message threads
+	public List<Question> getAllUnansweredQuestions() {
+		List<Question> questions = new ArrayList<Question>();
+		
+		for(Map.Entry<String, Question> entry : allQuestions.entrySet()) {
+			Question q = entry.getValue();
+			if(q.answer.isEmpty()) {
+				questions.add(q);
+			}
+		}
+		
+		return questions;
+	}
+	
+	// Get all message threads
+	public List<Question> getAllAnsweredQuestionsForPatient(String patientID) {
+		List<Question> questions = new ArrayList<Question>();
+		
+		for(Map.Entry<String, Question> entry : allQuestions.entrySet()) {
+			Question q = entry.getValue();
+			if(!q.answer.isEmpty() && q.patientID.equals(patientID)) {
+				questions.add(q);
+			}
+		}
+		
+		return questions;
 	}
 	
 	// Get all message threads

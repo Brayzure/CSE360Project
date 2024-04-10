@@ -11,15 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class VisitPatientLookup implements IScreen {
@@ -131,24 +125,32 @@ public class VisitPatientLookup implements IScreen {
 		
 		Button registerButton = new Button("Register Patient");
 		registerButton.setOnMouseClicked((e) -> {
-			PatientProfile tempP = dataController.searchForPatientProfile(firstName, lastName, birthday);
-			if(tempP == null) {
-				isNewProfile = true;
-				tempP = new PatientProfile();
-				tempP.firstName = firstName;
-				tempP.lastName = lastName;
-				tempP.birthday = birthday;
-				tempP.patientID = Util.generateID();
-				System.out.println("Creating new profile");
+			if((firstName == null || firstName.equals("")) || (lastName == null || lastName.equals("")) || (birthday == null || birthday.equals(""))) {
+				Alert error = new Alert(AlertType.ERROR);
+				error.setHeaderText("Missing Fields");
+				error.setContentText("All fields must be filled out before continuing.");
+				error.showAndWait();
+				return;
 			}
 			else {
-				isNewProfile = false;
-				System.out.println("Found existing profile");
+				PatientProfile tempP = dataController.searchForPatientProfile(firstName, lastName, birthday);
+				if(tempP == null) {
+					isNewProfile = true;
+					tempP = new PatientProfile();
+					tempP.firstName = firstName;
+					tempP.lastName = lastName;
+					tempP.birthday = birthday;
+					tempP.patientID = Util.generateID();
+					System.out.println("Creating new profile");
+				}
+				else {
+					isNewProfile = false;
+					System.out.println("Found existing profile");
+				}
+				currentPatientProfile = tempP;
+				
+				screenController.moveToScreen(VisitPatientLookup.ScreenID);
 			}
-			
-			currentPatientProfile = tempP;
-			
-			screenController.moveToScreen(VisitPatientLookup.ScreenID);
 		});
 		
 		Button proceedButton = new Button("Proceed");
@@ -163,11 +165,11 @@ public class VisitPatientLookup implements IScreen {
 			else {
 				dataController.savePatientProfile(currentPatientProfile);
 				dataController.setCurrentPatientProfile(currentPatientProfile);
-			  String newVisitID = Util.generateID();
-			  Visit newVisit = new Visit(newVisitID, currentPatientProfile.patientID);
-			  newVisit.setState("VITALS");
-			  dataController.setCurrentVisit(newVisit);
-			  dataController.saveVisit(newVisit);
+				String newVisitID = Util.generateID();
+				Visit newVisit = new Visit(newVisitID, currentPatientProfile.patientID);
+				newVisit.setState("VITALS");
+				dataController.setCurrentVisit(newVisit);
+				dataController.saveVisit(newVisit);
 				screenController.moveToScreen("visitVitals");
 			}
 		});
@@ -178,14 +180,5 @@ public class VisitPatientLookup implements IScreen {
 		content.getChildren().add(row);
 		
 		return layout;
-	}
-	
-	private HBox makeCenteredInputElement(String placeholder) {
-		TextField input = new TextField();
-		input.setPromptText(placeholder);
-		HBox row = new HBox(input);
-		row.setAlignment(Pos.CENTER);
-		
-		return row;
 	}
 }

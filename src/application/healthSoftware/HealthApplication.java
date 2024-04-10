@@ -4,6 +4,7 @@ import java.util.List;
 
 import application.healthSoftware.data.MessageThread;
 import application.healthSoftware.data.PatientProfile;
+import application.healthSoftware.data.Question;
 import application.healthSoftware.data.User;
 import application.healthSoftware.data.Visit;
 import javafx.scene.Scene;
