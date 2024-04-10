@@ -21,4 +21,10 @@ public class ContactInformation implements Serializable {
 		this.phoneNumber = phoneInput;
 		this.email = emailInput;
 	}
+	
+	public String toString() {
+		String out = "phoneNumber=" + phoneNumber
+				+ "\nemail=" + email;
+		return out;
+	}
 }
