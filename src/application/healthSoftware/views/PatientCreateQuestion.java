@@ -14,6 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class PatientCreateQuestion implements IScreen {
 	public static String ScreenID = "patientCreateQuestion";
@@ -37,7 +38,9 @@ public class PatientCreateQuestion implements IScreen {
 		layout.setAlignment(Pos.CENTER);
 		
 		Label questionLabel = new Label("Question: ");
+		questionLabel.setFont(new Font(30));
 		TextArea questionInput = new TextArea();
+		questionInput.setWrapText(true);
 		questionInput.setMaxWidth(500);
 		questionInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			question = newValue;
@@ -45,6 +48,7 @@ public class PatientCreateQuestion implements IScreen {
 		
 		VBox inputLine = new VBox(questionLabel, questionInput);
 		inputLine.setAlignment(Pos.CENTER);
+		inputLine.setSpacing(10);
 		
 		layout.getChildren().add(inputLine);
 		
@@ -72,6 +76,7 @@ public class PatientCreateQuestion implements IScreen {
 		row.setSpacing(20);
 		
 		layout.getChildren().add(row);
+		layout.setSpacing(10);
 		
 		return layout;
 	}
