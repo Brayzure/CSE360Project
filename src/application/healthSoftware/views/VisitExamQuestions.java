@@ -71,7 +71,7 @@ public class VisitExamQuestions implements IScreen {
 			current.setAllergies(allergies);
 			current.setHealthConcerns(healthConcerns);
 			dataController.saveVisit(current);
-			screenController.moveToScreen("visitPatientOverview");
+			screenController.moveToScreen("nurseSummary");
 		});
 		HBox row = new HBox(registerButton);
 		row.setAlignment(Pos.CENTER);

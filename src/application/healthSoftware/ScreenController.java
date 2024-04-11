@@ -57,6 +57,7 @@ public class ScreenController {
 		allScreens.put(PatientCreateQuestion.ScreenID, new PatientCreateQuestion(this));
 		allScreens.put(PatientViewAnswers.ScreenID, new PatientViewAnswers(this));
 		allScreens.put(StaffViewQuestions.ScreenID, new StaffViewQuestions(this));
+		allScreens.put(nurseSummary.ScreenID, new nurseSummary(this));
 		
 		// Set default screen
 		currentScreen = allScreens.get(ScreenController.defaultScreen);
