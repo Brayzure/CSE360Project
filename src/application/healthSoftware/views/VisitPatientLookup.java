@@ -54,28 +54,14 @@ public class VisitPatientLookup implements IScreen {
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 		
-		/*
-		TextField firstNameInput = new TextField();
-		firstNameInput.setPromptText("First Name");
-		HBox row1 = new HBox(firstNameInput);
-		row1.setAlignment(Pos.CENTER);
-		
-		TextField lastNameInput = new TextField();
-		lastNameInput.setPromptText("Last Name");
-		HBox row2 = new HBox(lastNameInput);
-		row2.setAlignment(Pos.CENTER);
-		
-		TextField birthdayInput = new TextField();
-		birthdayInput.setPromptText("Birthday");
-		HBox row3 = new HBox(birthdayInput);
-		row3.setAlignment(Pos.CENTER);
-		*/
-		
+		// Display status if we attempted to register a patient
 		if(currentPatientProfile != null) {
 			String status = "";
+			// Patient profile was not found
 			if(isNewProfile) {
 				status = "Proceeding will create a new patient profile for " + currentPatientProfile.firstName + " " + currentPatientProfile.lastName;
 			}
+			// Patient profile WAS found
 			else {
 				status = "Found an existing patient profile for " + currentPatientProfile.firstName + " " + currentPatientProfile.lastName;
 			}
@@ -85,7 +71,7 @@ public class VisitPatientLookup implements IScreen {
 			content.getChildren().add(row);
 		}
 
-		// Create password controls
+		// Create first name controls
 		Label firstNameLabel = new Label("First Name: ");
 		TextField firstNameInput = new TextField();
 		firstNameInput.setMaxWidth(200);
@@ -93,7 +79,7 @@ public class VisitPatientLookup implements IScreen {
 			firstName = newValue;
 		});
 		
-		// Create password controls
+		// Create last name controls
 		Label lastNameLabel = new Label("Last Name: ");
 		TextField lastNameInput = new TextField();
 		lastNameInput.setMaxWidth(200);
@@ -101,7 +87,7 @@ public class VisitPatientLookup implements IScreen {
 			lastName = newValue;
 		});
 		
-		// Create password controls
+		// Create birthday controls
 		Label birthdayLabel = new Label("Birthday: ");
 		TextField birthdayInput = new TextField();
 		birthdayInput.setMaxWidth(200);
@@ -109,6 +95,7 @@ public class VisitPatientLookup implements IScreen {
 			birthday = newValue;
 		});
 		
+		// Put it all together
 		HBox firstNameLine = new HBox(firstNameLabel, firstNameInput);
 		HBox lastNameLine = new HBox(lastNameLabel, lastNameInput);
 		HBox birthdayLine = new HBox(birthdayLabel, birthdayInput);
@@ -123,8 +110,10 @@ public class VisitPatientLookup implements IScreen {
 		inputSection.setAlignment(Pos.CENTER_LEFT);
 		content.getChildren().add(inputSection);
 		
+		// Register patient button
 		Button registerButton = new Button("Register Patient");
 		registerButton.setOnMouseClicked((e) -> {
+			// Missing information
 			if((firstName == null || firstName.equals("")) || (lastName == null || lastName.equals("")) || (birthday == null || birthday.equals(""))) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Missing Fields");
@@ -133,7 +122,9 @@ public class VisitPatientLookup implements IScreen {
 				return;
 			}
 			else {
+				// See if patient profile already exists
 				PatientProfile tempP = dataController.searchForPatientProfile(firstName, lastName, birthday);
+				// Does not exist, create new one
 				if(tempP == null) {
 					isNewProfile = true;
 					tempP = new PatientProfile();
@@ -143,6 +134,7 @@ public class VisitPatientLookup implements IScreen {
 					tempP.patientID = Util.generateID();
 					System.out.println("Creating new profile");
 				}
+				// DOES exist, use it!
 				else {
 					isNewProfile = false;
 					System.out.println("Found existing profile");
@@ -153,8 +145,10 @@ public class VisitPatientLookup implements IScreen {
 			}
 		});
 		
+		// Proceed!
 		Button proceedButton = new Button("Proceed");
 		proceedButton.setOnMouseClicked((e) -> {
+			// Force user to register a patient
 			if(currentPatientProfile == null) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("No Patient Registered");
@@ -162,6 +156,7 @@ public class VisitPatientLookup implements IScreen {
 				error.showAndWait();
 				return;
 			}
+			// Save patient profile, cache it, same with visit
 			else {
 				dataController.savePatientProfile(currentPatientProfile);
 				dataController.setCurrentPatientProfile(currentPatientProfile);

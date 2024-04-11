@@ -9,6 +9,7 @@ public class PatientVitals implements Serializable {
 	private int systolicBP;
 	private int diastolicBP;
 	
+	// Basic constructor
 	public PatientVitals() {
 		height = "";
 		weight = 0;
@@ -17,6 +18,7 @@ public class PatientVitals implements Serializable {
 		diastolicBP = 0;
 	}
 	
+	// Populated constructor
 	public PatientVitals(String heightInput, int weightInput, Double tempInput, int sBPInput, int dBPInput) {
 		height = heightInput;
 		weight = weightInput;
@@ -25,9 +27,12 @@ public class PatientVitals implements Serializable {
 		diastolicBP = dBPInput;
 	}
 	
+	
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public void setHeight(String nHeight) {
 		height = nHeight;
-		return;
 	}
 	
 	public String getHeight() {
@@ -36,7 +41,6 @@ public class PatientVitals implements Serializable {
 	
 	public void setWeight(int nWeight) {
 		weight = nWeight;
-		return;
 	}
 	
 	public int getWeight() {
@@ -45,7 +49,6 @@ public class PatientVitals implements Serializable {
 	
 	public void setTemp(Double nTemp) {
 		temperature = nTemp;
-		return;
 	}
 	
 	public Double getTemp() {
@@ -54,7 +57,6 @@ public class PatientVitals implements Serializable {
 	
 	public void setSystolic(int nSystolic) {
 		systolicBP = nSystolic;
-		return;
 	}
 	
 	public int getSystolic() {
@@ -63,7 +65,6 @@ public class PatientVitals implements Serializable {
 	
 	public void setDiastolic(int nDiastolic) {
 		diastolicBP = nDiastolic;
-		return;
 	}
 	
 	public int getDiastolic() {

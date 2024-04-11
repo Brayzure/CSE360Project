@@ -175,7 +175,7 @@ public class DataController {
 		}
 	}
 	
-	// Save a visit
+	// Save a question
 	public void saveQuestion(Question q) {
 		allQuestions.put(q.questionID, q);
 		
@@ -206,12 +206,12 @@ public class DataController {
 		return allPatients.get(patientID);
 	}
 	
-	// Retrieve a cached patient profile
+	// Get a single question
 	public Question getQuestion(String questionID) {
 		return allQuestions.get(questionID);
 	}
 	
-	// Get all message threads
+	// Get all unanswered questions
 	public List<Question> getAllUnansweredQuestions() {
 		List<Question> questions = new ArrayList<Question>();
 		
@@ -225,7 +225,7 @@ public class DataController {
 		return questions;
 	}
 	
-	// Get all message threads
+	// Get all answered questions for a patient
 	public List<Question> getAllAnsweredQuestionsForPatient(String patientID) {
 		List<Question> questions = new ArrayList<Question>();
 		
@@ -251,7 +251,7 @@ public class DataController {
 		return threads;
 	}
 	
-	// Get all message threads
+	// Get all message threads for a single patient
 	public List<MessageThread> getAllMessageThreadsForPatient(String patientID) {
 		List<MessageThread> threads = new ArrayList<MessageThread>();
 		
@@ -265,12 +265,12 @@ public class DataController {
 		return threads;
 	}
 	
-	// Retrieve a cached patient profile
+	// Get a message thread
 	public MessageThread getMessageThread(String threadID) {
 		return allThreads.get(threadID);
 	}
 	
-	// Save a visit
+	// Save a message thread
 	public void saveMessageThread(MessageThread t) {
 		allThreads.put(t.threadID, t);
 		
@@ -288,7 +288,7 @@ public class DataController {
 		return allUsers.get(userID);
 	}
 	
-	// Retrieve a specific user by their ID
+	// Retrieve a specific user by their username
 	public User getUserByUsername(String username) {
 		for(Map.Entry<String, User> entry : allUsers.entrySet()) {
 			User u = entry.getValue();
@@ -312,6 +312,7 @@ public class DataController {
 		}
 	}
 	
+	// Find user based on name and birthday
 	public User searchForUser(String firstName, String lastName, String birthday) {
 		for(Map.Entry<String, User> entry : allUsers.entrySet()) {
 			User u = entry.getValue();
@@ -322,6 +323,7 @@ public class DataController {
 		return null;
 	}
 	
+	// Find patient profile based on name and birthday
 	public PatientProfile searchForPatientProfile(String firstName, String lastName, String birthday) {
 		for(Map.Entry<String, PatientProfile> entry : allPatients.entrySet()) {
 			PatientProfile p = entry.getValue();
@@ -332,26 +334,32 @@ public class DataController {
 		return null;
 	}
 	
+	// Set cached visit
 	public void setCurrentVisit(Visit v) {
 		currentVisit = v;
 	}
 	
+	// Get cached visit
 	public Visit getCurrentVisit() {
 		return currentVisit;
 	}
 	
+	// Set sached patient profile
 	public void setCurrentPatientProfile(PatientProfile p) {
 		currentPatientProfile = p;
 	}
 	
+	// Get cached patient profile
 	public PatientProfile getCurrentPatientProfile() {
 		return currentPatientProfile;
 	}
 	
+	// Set cached user
 	public void setCurrentUser(User u) {
 		currentUser = u;
 	}
 	
+	// Get cached user
 	public User getCurrentUser() {
 		return currentUser;
 	}

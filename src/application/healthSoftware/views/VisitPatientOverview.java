@@ -29,6 +29,7 @@ public class VisitPatientOverview implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Patient Registration Complete");
@@ -36,12 +37,14 @@ public class VisitPatientOverview implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 
+		// Placeholder (now unused)
 		HBox announceRow = new HBox();
 		announceRow.setAlignment(Pos.CENTER);
 		Label announcement = new Label("Patient is ready to see the doctor! This is where we will display their overview once the PatientProfile class is fully defined.");

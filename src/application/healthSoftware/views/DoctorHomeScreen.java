@@ -37,6 +37,7 @@ public class DoctorHomeScreen implements IScreen {
 		VBox layout = new VBox();
 		layout.setSpacing(30);
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Doctor Home Screen");
@@ -44,11 +45,13 @@ public class DoctorHomeScreen implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		layout.getChildren().add(content);
 		
+		// Visits title
 		Label visitTitle = new Label("Current Visits");
 		visitTitle.setFont(new Font(36));
 		HBox visitTitleRow = new HBox();
@@ -56,6 +59,7 @@ public class DoctorHomeScreen implements IScreen {
 		visitTitleRow.getChildren().add(visitTitle);
 		content.getChildren().add(visitTitleRow);
 		
+		// Tooltip
 		Label visitTooltip = new Label("Click Visit to Begin");
 		visitTooltip.setFont(new Font(16));
 		HBox visitTooltipRow = new HBox();
@@ -63,21 +67,9 @@ public class DoctorHomeScreen implements IScreen {
 		visitTooltipRow.getChildren().add(visitTooltip);
 		content.getChildren().add(visitTooltipRow);
 		
-		/* for(int i = 0; i < 5; i++) {
-			HBox row = new HBox();
-			row.setAlignment(Pos.CENTER);
-			row.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-			row.setMaxWidth(500);
-			row.setPrefHeight(50);
-			row.getChildren().add(new Label("Visit " + i));
-			row.setOnMouseClicked((e) -> {
-				screenController.moveToScreen("visitExamFindings");
-			});
-			
-			content.getChildren().add(row);
-		} */
-		
+		// Get all visits that are ready for the doctor
 		List<Visit> visitList = dataController.getAllVisitsWithState("FINDINGS");
+		// Default in case there are none
 		if(visitList.isEmpty()) {
 			HBox row = new HBox();
 			row.setAlignment(Pos.CENTER);
@@ -85,11 +77,9 @@ public class DoctorHomeScreen implements IScreen {
 			row.setMaxWidth(500);
 			row.setPrefHeight(50);
 			row.getChildren().add(new Label("No Visits"));
-			row.setOnMouseClicked((e) -> {
-				screenController.moveToScreen("visitExamFindings");
-			});
 			content.getChildren().add(row);
 		}
+		// We found some visits, let's add them
 		else {
 			for(Visit visits: visitList) {
 				PatientProfile visitingPatient = dataController.getPatientProfile(visits.patientID);
@@ -109,6 +99,7 @@ public class DoctorHomeScreen implements IScreen {
 			}
 		}
 		
+		// Questions box
 		VBox messageContent = new VBox();
 		messageContent.setAlignment(Pos.CENTER);
 		

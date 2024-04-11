@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-
-//imports paxton added, may or may not be neccessary
 import javafx.scene.text.Font;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,17 +25,10 @@ public class PatientPortalChangeImmunization implements IScreen {
 		
 	}
 	
-	//change to current profile later when tyler helps
-
-	
-
-		
 	public Region getLayout() {
 		
 		PatientProfile curr = new PatientProfile(); 
 		
-		//this is causing an out of bounds error
-		//set values to whats stored in the list
 		String currImmun1 = "";
 		String currImmun2 = "";
 		String currImmun3 = "";
@@ -125,5 +116,3 @@ public class PatientPortalChangeImmunization implements IScreen {
 		return new VBox(top, mid);
 	}
 }
-
-	//todo: set insets of text fields?

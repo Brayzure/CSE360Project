@@ -21,6 +21,7 @@ public class Visit implements Serializable {
 	private String findings;
 	private String prescriptionString;
 	
+	// Constructor
 	public Visit(String inputVisitID, String inputPatientID) {
 		visitID = inputVisitID;
 		patientID = inputPatientID;
@@ -33,6 +34,7 @@ public class Visit implements Serializable {
 		findings = "NULL";
 	}
 	
+	// Basic constructor
 	public Visit() {
 		visitID = "NULL";
 		patientID = "NULL";
@@ -45,6 +47,9 @@ public class Visit implements Serializable {
 		findings = "NULL";
 	}
 	
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public void setState(String nState) {
 		state = nState;
 		return;
@@ -116,7 +121,6 @@ public class Visit implements Serializable {
 	
 	public void setPrescriptionString() {
 		prescriptionString = prescriptions.stream().map((e) -> { return e.getName(); }).collect(Collectors.joining(", "));
-		System.out.println(prescriptionString);
 		return;
 	}
 	

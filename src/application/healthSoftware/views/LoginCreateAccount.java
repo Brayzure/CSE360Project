@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
@@ -33,6 +32,7 @@ public class LoginCreateAccount implements IScreen {
 		dataController = DataController.getInstance();
 	}
 	
+	// Make a new mock user every time we enter this page
 	public void refreshData() {
 		mockUser = new User();
 		mockUser.userType = "patient";
@@ -41,6 +41,7 @@ public class LoginCreateAccount implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Create Account");
@@ -48,12 +49,14 @@ public class LoginCreateAccount implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 		
+		// User type radio buttons
 		Label userSelect = new Label("User Type");
 		HBox userSelectRow = new HBox(userSelect);
 		userSelectRow.setAlignment(Pos.CENTER);
@@ -123,6 +126,7 @@ public class LoginCreateAccount implements IScreen {
 			mockUser.birthday = newValue;
 		});
 		
+		// Put everything together
 		HBox inputLine = new HBox(usernameLabel, usernameInput);
 		HBox passwordInputLine = new HBox(passwordLabel, passwordInput);
 		HBox firstNameLine = new HBox(firstNameLabel, firstNameInput);
@@ -139,8 +143,10 @@ public class LoginCreateAccount implements IScreen {
 		inputSection.setAlignment(Pos.CENTER_LEFT);
 		content.getChildren().add(inputSection);
 		
+		// Register button
 		Button registerButton = new Button("Create Account");
 		registerButton.setOnMouseClicked((e) -> {
+			// Check if any fields are empty
 			if(usernameInput.getText().equals("") ||
 					passwordInput.getText().equals("") ||
 					firstNameInput.getText().equals("") ||
@@ -153,7 +159,9 @@ public class LoginCreateAccount implements IScreen {
 				error.showAndWait();
 				return;
 			}
+			// Everything is filled, check to see if username is taken
 			User tempUser = dataController.getUserByUsername(mockUser.username);
+			// Username not taken, proceed
 			if(tempUser == null) {
 				mockUser.generateUserID();
 				String nextScreen = "loginScreen";
@@ -199,6 +207,7 @@ public class LoginCreateAccount implements IScreen {
 				dataController.setCurrentPatientProfile(mockUser.patientProfile);
 				screenController.moveToScreen(nextScreen);
 			}
+			// Username taken, error
 			else {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Username Taken");
@@ -207,6 +216,7 @@ public class LoginCreateAccount implements IScreen {
 			}
 		});
 		
+		// Return button
 		Button cancelButton = new Button("Cancel");
 		cancelButton.setOnMouseClicked((e) -> {
 			screenController.moveToScreen("loginScreen");
@@ -217,14 +227,5 @@ public class LoginCreateAccount implements IScreen {
 		content.getChildren().add(row);
 		
 		return layout;
-	}
-	
-	private HBox makeCenteredInputElement(String placeholder) {
-		TextField input = new TextField();
-		input.setPromptText(placeholder);
-		HBox row = new HBox(input);
-		row.setAlignment(Pos.CENTER);
-		
-		return row;
 	}
 }

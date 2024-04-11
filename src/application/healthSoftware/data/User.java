@@ -10,7 +10,7 @@ import application.healthSoftware.Util;
 
 public class User implements Serializable {
 	public String username;
-	private String passwordHash;
+	private String passwordHash; // Don't allow direct setting of the password hash
 	public String userType;
 	
 	public String userID;
@@ -21,6 +21,7 @@ public class User implements Serializable {
 	
 	public PatientProfile patientProfile;
 	
+	// Basic constructor
 	public User() {
 		username = "";
 		passwordHash = "";
@@ -31,6 +32,7 @@ public class User implements Serializable {
 		userID = "";
 	}
 	
+	// String representation
 	public String toString() {
 		String out = "username=" + username
 				+ "\npasswordHash=" + passwordHash
@@ -41,10 +43,12 @@ public class User implements Serializable {
 		return out;
 	}
 	
+	// Store associated patient profile
 	public void setPatientProfile(PatientProfile p) {
 		patientProfile = p;
 	}
 	
+	// Generate ID
 	public void generateUserID() {
 		userID = Util.generateID();
 	}
@@ -61,6 +65,7 @@ public class User implements Serializable {
 		}
 	}
 	
+	// SHA-256 implementation
 	private String sha256(String input) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] digest = md.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -74,6 +79,7 @@ public class User implements Serializable {
 		return hexString.toString();
 	}
 	
+	// Check if supplied password matches the hash we have now
 	public boolean testPassword(String input) {
 		try {
 			String testHash = sha256(input);

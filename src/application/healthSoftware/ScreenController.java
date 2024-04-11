@@ -114,6 +114,7 @@ public class ScreenController {
 		return app.getCurrentUser();
 	}
 	
+	// Utility to find the key associated with a screen instance
 	public <K, V> K getKey(Map<K, V> map, V value) {
 	    for (Entry<K, V> entry : map.entrySet()) {
 	        if (entry.getValue().equals(value)) {

@@ -7,7 +7,6 @@ public class ContactInformation implements Serializable {
 	public String phoneNumber;
 	public String email;
 	
-	
 	//no properties constructor
 	public ContactInformation()
 	{
@@ -15,13 +14,14 @@ public class ContactInformation implements Serializable {
 		this.email = "";
 	}
 	
-	//constructor, i believe that this is neccessary but tyler just comment this out if it isnt
+	// Constructor
 	public ContactInformation(String phoneInput, String emailInput)
 	{
 		this.phoneNumber = phoneInput;
 		this.email = emailInput;
 	}
 	
+	// String representation
 	public String toString() {
 		String out = "phoneNumber=" + phoneNumber
 				+ "\nemail=" + email;

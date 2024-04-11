@@ -33,6 +33,7 @@ public class VisitExamQuestions implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Examination Questions");
@@ -40,12 +41,16 @@ public class VisitExamQuestions implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 		
+		/*
+		 * Inputs
+		 */
 		VBox allergiesInput = makeCenteredInputElement("Allergies");
 		HBox allergiesFieldRow = (HBox) allergiesInput.getChildren().get(1);
 		TextArea allergiesField = (TextArea) allergiesFieldRow.getChildren().get(0);
@@ -65,6 +70,7 @@ public class VisitExamQuestions implements IScreen {
 		content.getChildren().add(allergiesInput);
 		content.getChildren().add(healthConcernsInput);
 		
+		// Proceed button
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
 			Visit current = dataController.getCurrentVisit();

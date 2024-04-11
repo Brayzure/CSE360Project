@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Serializer {
+	// Decode serialized object into something we can use
 	public static Object deserialize(String fileName) throws IOException,
 			ClassNotFoundException,
 			FileNotFoundException {
@@ -18,6 +19,7 @@ public class Serializer {
 		return obj;
 	}
 	
+	// Encode object into serialized object onto disk
 	public static void serialize(Object obj, String fileName)
 			throws IOException {
 		FileOutputStream fos = new FileOutputStream(fileName);

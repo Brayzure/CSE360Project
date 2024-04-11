@@ -50,22 +50,18 @@ public class VisitPrescriptions implements IScreen {
 		
 	}
 	
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
-		HBox titleRow = new HBox();
-		titleRow.setAlignment(Pos.CENTER);
-		Label title = new Label("Doctor Home Screen");
-		title.setFont(new Font(48));
-		titleRow.getChildren().add(title);
-		layout.getChildren().add(titleRow);
-		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(30);
 		layout.getChildren().add(content);
 		
+		// Section header
 		Label visitTitle = new Label("Prescriptions");
 		visitTitle.setFont(new Font(36));
 		HBox visitTitleRow = new HBox();
@@ -73,6 +69,7 @@ public class VisitPrescriptions implements IScreen {
 		visitTitleRow.getChildren().add(visitTitle);
 		content.getChildren().add(visitTitleRow);
 		
+		// Table setup for prescriptions
 		TableView<Prescription> table = new TableView<Prescription>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setMaxWidth(500);
@@ -94,6 +91,7 @@ public class VisitPrescriptions implements IScreen {
 		checkRow.getChildren().add(skipPrescriptions);
 		content.getChildren().add(checkRow);
 		
+		// Launch dialog box to input new prescription
 		Button pButton = new Button("Add New Prescription");
 		pButton.setOnMouseClicked((e) -> {
 			Visit cVisit = dataController.getCurrentVisit();
@@ -116,7 +114,6 @@ public class VisitPrescriptions implements IScreen {
 				return null;
 			});
 			Optional<Prescription> result = pDialog.showAndWait();
-			System.out.println(result);
 			result.ifPresent((Prescription newPres) -> {
 				cVisit.appendPrescription(newPres);
 				System.out.println("Prescription Added");
@@ -124,6 +121,8 @@ public class VisitPrescriptions implements IScreen {
 				table.setItems(FXCollections.observableArrayList(cVisit.getPrescriptions()));
 			});
 		});
+		
+		// Proceed to next stage
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
 			Visit nVisit = dataController.getCurrentVisit();
@@ -137,23 +136,4 @@ public class VisitPrescriptions implements IScreen {
 		
 		return layout;
 	}
-	
-	/* public Dialog<Prescription> prescriptionDialog() {
-		Dialog<Prescription> pDialog = new Dialog<>();
-		pDialog.setTitle("Add Prescription");
-		pDialog.setHeaderText("Please input data to create a new prescription");
-		DialogPane pDialogPane = pDialog.getDialogPane();
-		pDialogPane.getButtonTypes().addAll(ButtonType.FINISH, ButtonType.CANCEL);
-		TextField nameField = new TextField("Medication Name");
-		TextField dosageField = new TextField("Medication Dosage");
-		TextField durationField = new TextField("Prescription Duration");
-		pDialogPane.setContent(new VBox(10, nameField, dosageField, durationField));
-		pDialog.setResultConverter((ButtonType button) -> {
-			if(button == ButtonType.OK) {
-				return new Prescription(nameField.getText(), dosageField.getText(), durationField.getText());
-			}
-			return null;
-		});
-		return pDialog;
-	} */
 }

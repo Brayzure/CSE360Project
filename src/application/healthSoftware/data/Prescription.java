@@ -7,18 +7,23 @@ public class Prescription implements Serializable {
 	private String dosage;
 	private String duration;
 	
+	// Basic constructor
 	public Prescription() {
 		this.name = "";
 		this.dosage = "";
 		this.duration = "";
 	}
 	
+	// Populated constructors
 	public Prescription(String nName, String nDosage, String nDuration) {
 		this.name = nName;
 		this.dosage = nDosage;
 		this.duration = nDuration;
 	}
 	
+	/*
+	 * GETTERS AND SETTERS
+	 */
 	public String getName() {
 		return name;
 	}

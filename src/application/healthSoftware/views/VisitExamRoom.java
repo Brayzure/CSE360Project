@@ -29,6 +29,7 @@ public class VisitExamRoom implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Patient Registration Complete");
@@ -36,12 +37,14 @@ public class VisitExamRoom implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 
+		// Announcement directions
 		HBox announceRow = new HBox();
 		announceRow.setAlignment(Pos.CENTER);
 		Label announcement = new Label("Initial data collection complete. Please escort the patient to the examination room.");
@@ -51,6 +54,7 @@ public class VisitExamRoom implements IScreen {
 		announceRow.getChildren().add(announcement);
 		content.getChildren().add(announceRow);
 		
+		// Proceed button
 		Button proceedButton = new Button("Proceed");
 		proceedButton.setOnMouseClicked((e) -> {
 			Visit current = dataController.getCurrentVisit();

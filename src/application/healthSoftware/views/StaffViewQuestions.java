@@ -6,13 +6,11 @@ import java.util.List;
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
 import application.healthSoftware.data.Question;
-import application.healthSoftware.data.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
@@ -151,7 +149,6 @@ public class StaffViewQuestions implements IScreen {
 		buttonRow.setSpacing(355);
 		
 		//sets button row to be at the bottom of the page vbox
-		//layout.getChildren().add(buttonRow);
 		questionDetails.getChildren().add(buttonRow);
 		layout.setSpacing(5);
 		layout.setMargin(content, new Insets(0,0,0,10));

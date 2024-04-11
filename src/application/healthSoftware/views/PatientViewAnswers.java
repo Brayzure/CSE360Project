@@ -49,6 +49,8 @@ public class PatientViewAnswers implements IScreen {
 		questionScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		
 		HBox content = new HBox();
+		
+		// Question list on the left
 		VBox questionListBox = new VBox();
 		Label questionListLabel = new Label("Questions you sent");
 		questionListLabel.setFont(new Font(30));
@@ -57,10 +59,12 @@ public class PatientViewAnswers implements IScreen {
 		questionListLabelBox.setSpacing(10);
 		questionListLabelBox.setAlignment(Pos.TOP_CENTER);
 		
+		// Question details in the center
 		VBox questionDetails = new VBox();
 		questionListBox.setPrefWidth(300);
 		questionDetails.setPrefWidth(500);
 		
+		// Add our questions
 		for(Question q : questionList) {
 			HBox row = createQuestionItem(q);
 			questionListBox.getChildren().add(row);
@@ -68,24 +72,17 @@ public class PatientViewAnswers implements IScreen {
 		
 		questionScrollPane.setContent(questionListBox);
 		
+		// Define layout for question details
 		Text questionLabel = new Text("Patient Asks: ");
 		questionLabel.setFont(new Font(30));
-		//questionLabel.setWrapText(true);
 		Text answerLabel = new Text("Staff Answers: ");
 		answerLabel.setFont(new Font(30));
-		//answerLabel.setWrapText(true);
 		TextArea questionText = new TextArea();
 		questionText.setEditable(false);
 		questionText.setWrapText(true);
-		/*questionText.setPrefHeight(100);
-		questionText.setPrefWidth(400);
-		*/
 		TextArea answerText = new TextArea();
 		answerText.setEditable(false);
 		answerText.setWrapText(true);
-		/*answerText.setPrefHeight(100);
-		answerText.setPrefWidth(400);
-		*/
 		VBox questionColumn = new VBox(questionLabel, questionText);
 		HBox questionRow = new HBox(questionColumn);
 		questionRow.setAlignment(Pos.CENTER);
@@ -95,12 +92,8 @@ public class PatientViewAnswers implements IScreen {
 
 		questionDetails.getChildren().add(questionRow);
 		questionDetails.getChildren().add(answerRow);
-	
 		
 		if(currentQuestion != null) {
-			/*questionLabel.setText("Patient Asks: " + currentQuestion.question);
-			answerLabel.setText("Staff Answers: " + currentQuestion.answer);
-			*/
 			questionText.setText(currentQuestion.question);
 			answerText.setText(currentQuestion.answer);
 		}
@@ -110,7 +103,6 @@ public class PatientViewAnswers implements IScreen {
 		content.setSpacing(10);
 		layout.getChildren().add(content);
 		
-		//HBox returnRow = new HBox();
 		Button returnButton = new Button("Back");
 		returnButton.setOnMouseClicked((e) -> {
 			screenController.moveToScreen("patientHomeScreen");
@@ -125,6 +117,7 @@ public class PatientViewAnswers implements IScreen {
 		return layout;
 	}
 	
+	// Make a layout for a Question on the left
 	public HBox createQuestionItem(Question q) {
 		HBox row = new HBox();
 		Label questionLabel = new Label(q.question);

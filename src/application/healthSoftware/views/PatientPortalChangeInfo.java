@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-
-//imports paxton added, may or may not be neccessary
 import javafx.scene.text.Font;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,40 +17,20 @@ public class PatientPortalChangeInfo implements IScreen {
 	public static String ScreenID = "patientPortalChangeInfo";
 	
 	ScreenController screenController;
-	
+	private DataController dataController; 
 	
 	public PatientPortalChangeInfo(ScreenController sc) {
 		screenController = sc;
+		dataController = DataController.getInstance();
 	}
 	
 	public void refreshData() {
 		
 	}
 	
-	
-	private DataController dataController; {
-		dataController = DataController.getInstance();
-	};
-	
-	
-	/*PatientProfile curr;  {
-		curr = dataController.getCurrentPatientProfile();
-	};
-	*/
-	
-	//placeholder PatientProfile until i figure out how to get the current one, osmething to do with user id from User.java class??
-
-	
 	public Region getLayout() {
-		
-		//Cannot read field "firstName" because "curr" is null
-			//PatientProfile curr = new PatientProfile();		
-			//curr = dataController.getCurrentPatientProfile();
-				
 		User currentUser = dataController.getCurrentUser();
 		
-		
-		//Cannot read field "firstName" because "curr" is null
 		PatientProfile curr = currentUser.patientProfile;
 		
 		

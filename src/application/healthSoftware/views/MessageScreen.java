@@ -18,13 +18,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import application.healthSoftware.DataController;
 import application.healthSoftware.ScreenController;
-import application.healthSoftware.data.Message;
 import application.healthSoftware.data.MessageThread;
 import application.healthSoftware.data.User;
 import javafx.scene.layout.HBox;
@@ -84,13 +80,6 @@ public class MessageScreen implements IScreen {
 		readMessageText.setEditable(false);
 		Button resolve = new Button();
 		resolve.setText("Resolve");
-		
-		//FIX
-		
-		/*ObservableList<MessageThread> providerSubject = FXCollections.observableArrayList(dataController.getAllMessageThreads());
-		//providerSubject.setAll(dataController.getAllMessageThreads());
-		ListView<MessageThread> inboxMessageThreads = new ListView<MessageThread>(providerSubject);
-		*/
 		
 		
 		
@@ -167,7 +156,6 @@ public class MessageScreen implements IScreen {
 			}
 		});
 		
-		
 		inboxMessageThreads.setCellFactory(new Callback<ListView<MessageThread>, ListCell<MessageThread>>(){
 			@Override
 			public ListCell<MessageThread> call(ListView<MessageThread> m){
@@ -176,21 +164,13 @@ public class MessageScreen implements IScreen {
 				protected void updateItem(MessageThread currThread, boolean empty) {
 					super.updateItem(currThread, empty);
 					if(currThread != null && currThread.isOpen == true && !empty) {
-						setText(String.valueOf(dataController.getAllMessageThreads()));
-						//setText(dataController.getAllMessageThreads().toString());
-						//setText(currThread.messages.toString());
-						//setText(getAllMessageThreadsAsString());
-						//setText(providerSubject.toString())
-						
+						setText(String.valueOf(dataController.getAllMessageThreads()));						
 					}
 				}
 				};
 				return message;
 			}
 		});
-		
-		
-		
 		
 		//Event for inbox label where send message VBox is deleted and read message VBox is added
 		inboxMessageThreads.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -239,23 +219,6 @@ public class MessageScreen implements IScreen {
           });
 		
 		return page;
-		
-		
-		//Functionality to implement
-		//Notification bell
-		//Figure out how to handle long text
-		//Reply and forwarding functions
-		
-		//getAllMessageThreadsForPatient specifically checks the authorID field on each thread
-		//Add date
-		
-		/*As a user, I want to be able to create threads and messages, so I can communicate with other users.
-		Acceptance Criteria:
-		Users of any kind can create a new MessageThread, which will be listed in the sidebar of the message screen.
-		Users can open a MessageThread, which will then list all messages sent in that thread, who sent them, and when they were sent.
-		Users can open a MessageThread, and send their own message.
-		Users can mark a MessageThread as resolved, removing it from the list on the left.
-*/
 	}
 	
 }

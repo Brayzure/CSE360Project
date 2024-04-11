@@ -10,6 +10,7 @@ public class Question implements Serializable {
 	public String answer;
 	public String patientID;
 
+	// Constructor
 	public Question(String q) {
 		question = q;
 		answer = "";
@@ -17,6 +18,7 @@ public class Question implements Serializable {
 		questionID = Util.generateID();
 	}
 	
+	// Answer the question
 	public void answerQuestion(String a) {
 		answer = a;
 	}

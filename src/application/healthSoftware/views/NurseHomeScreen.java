@@ -33,6 +33,7 @@ public class NurseHomeScreen implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Nurse Home Screen");
@@ -40,12 +41,14 @@ public class NurseHomeScreen implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(50);
 		layout.getChildren().add(content);
 		
+		// Begin Visit button
 		HBox row = new HBox();
 		row.setAlignment(Pos.CENTER);
 		row.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -58,6 +61,7 @@ public class NurseHomeScreen implements IScreen {
 		
 		row.getChildren().add(new Label("Begin Visit"));
 		
+		// Questions button
 		HBox row2 = new HBox();
 		row2.setAlignment(Pos.CENTER);
 		row2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));

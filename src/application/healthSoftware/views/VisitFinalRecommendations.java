@@ -32,6 +32,7 @@ public class VisitFinalRecommendations implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Final Recommendations");
@@ -39,6 +40,7 @@ public class VisitFinalRecommendations implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
@@ -51,15 +53,16 @@ public class VisitFinalRecommendations implements IScreen {
 		HBox examRecommendationsHBox = (HBox) examRecommendationsVBox.getChildren().get(1);
 		TextArea examRecommendationsInput = (TextArea) examRecommendationsHBox.getChildren().get(0);
 		
+		// Update local variable
 		examRecommendationsInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			examRecommendations = newValue;
-			System.out.println(examRecommendations);
 		});
 		
+		// Final button, completes a visit
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
 			Visit cVisit = dataController.getCurrentVisit();
-			cVisit.setFindings(examRecommendations);
+			cVisit.setRecommendations(examRecommendations);
 			cVisit.setState("COMPLETE");
 			dataController.saveVisit(cVisit);
 			dataController.setCurrentVisit(null);

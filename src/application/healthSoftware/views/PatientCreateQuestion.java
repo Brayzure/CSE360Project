@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -37,6 +36,7 @@ public class PatientCreateQuestion implements IScreen {
 		VBox layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
 		
+		// Question input
 		Label questionLabel = new Label("Question: ");
 		questionLabel.setFont(new Font(30));
 		TextArea questionInput = new TextArea();
@@ -52,9 +52,10 @@ public class PatientCreateQuestion implements IScreen {
 		
 		layout.getChildren().add(inputLine);
 		
-		
+		// Send question button, with logic
 		Button sendQuestionButton = new Button("Ask Question");
 		sendQuestionButton.setOnMouseClicked((e) -> {
+			// Ensure question has values
 			if(question.isEmpty()) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Missing Information");

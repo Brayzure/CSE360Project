@@ -38,6 +38,7 @@ public class VisitVitals implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Patient Vitals");
@@ -45,12 +46,16 @@ public class VisitVitals implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 		
+		/*
+		 * INPUTS
+		 */
 		HBox heightInput = makeCenteredInputElement("Height");
 		TextField heightField = (TextField) heightInput.getChildren().get(1);
 		
@@ -86,14 +91,17 @@ public class VisitVitals implements IScreen {
 			diastolicBP = Integer.parseInt(newValue);
 		});
 
+		// Put it together
 		content.getChildren().add(heightInput);
 		content.getChildren().add(weightInput);
 		content.getChildren().add(bodyTempInput);
 		content.getChildren().add(systolicInput);
 		content.getChildren().add(diastolicInput);
 		
+		// Proceed button
 		Button registerButton = new Button("Register Vitals");
 		registerButton.setOnMouseClicked((e) -> {
+			// Ensure fields are filled in
 			if((height == null || height.equals("")) || weight == 0 || bodyTemp == 0.0 || systolicBP == 0 || diastolicBP == 0) {
 				Alert error = new Alert(AlertType.ERROR);
 				error.setHeaderText("Missing Fields");
@@ -101,6 +109,7 @@ public class VisitVitals implements IScreen {
 				error.showAndWait();
 				return;
 			}
+			// Update patient profile and proceed
 			else {
 				PatientVitals newPatientVitals = new PatientVitals(height, weight, bodyTemp, systolicBP, diastolicBP);
 				Visit current = dataController.getCurrentVisit();

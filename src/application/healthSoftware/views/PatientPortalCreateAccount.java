@@ -11,12 +11,14 @@ import javafx.scene.layout.*;
 
 //imports paxton added, may or may not be neccessary
 import javafx.scene.text.Font;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class PatientPortalCreateAccount implements IScreen {
 	public static String ScreenID = "patientPortalCreateAccount";
 	
+	/*
+	 * Temporary, private fields
+	 */
 	private ScreenController screenController;
 	private DataController dataController;
 	private PatientProfile currentPatientProfile;
@@ -88,6 +90,9 @@ public class PatientPortalCreateAccount implements IScreen {
 		personalInformationSection.setMaxWidth(220);
 		
 
+		/*
+		 * Contact information fields
+		 */
 		Label contactTitle = new Label("Contact Information");
 		contactTitle.setFont(new Font(20));
 		Label phoneLabel = new Label("Phone Number");
@@ -107,6 +112,9 @@ public class PatientPortalCreateAccount implements IScreen {
 		contactInformationSection.setSpacing(20);
 		contactInformationSection.setMaxWidth(220);
 
+		/*
+		 * Insurance information fields
+		 */
 		Label insuranceTitle = new Label("Insurance Information");
 		insuranceTitle.setFont(new Font(20));
 		Label providerLabel = new Label("Provider");
@@ -132,6 +140,9 @@ public class PatientPortalCreateAccount implements IScreen {
 		insuranceInformationSection.setSpacing(20);
 		insuranceInformationSection.setMaxWidth(220);
 
+		/*
+		 * Pharmacy information fields
+		 */
 		Label pharmacyTitle = new Label("Pharmacy Information");
 		pharmacyTitle.setFont(new Font(20));
 		Label nameLabel = new Label("Pharmacy Name");
@@ -185,7 +196,6 @@ public class PatientPortalCreateAccount implements IScreen {
 			currentPatientProfile.updateInsurance(providerValue, groupValue, memberValue);
 			currentPatientProfile.updatePharmacy(pharmacyNameValue, pharmacyAddressValue, pharmacyPhoneValue);
 			currentPatientProfile.immunizationsString = immunizationsValue;
-			System.out.println(currentPatientProfile.toString());
 			dataController.savePatientProfile(currentPatientProfile);
 			screenController.moveToScreen("loginScreen");
 		});
@@ -198,10 +208,6 @@ public class PatientPortalCreateAccount implements IScreen {
 		layout.getChildren().add(immunizationsRow);
 		layout.getChildren().add(submitRow);
 		
-		
-		
 		return layout;
 	}
 }
-
-	//todo: set insets of text fields?

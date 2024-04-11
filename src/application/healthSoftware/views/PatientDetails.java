@@ -1,15 +1,10 @@
 package application.healthSoftware.views;
 
 import application.healthSoftware.ScreenController;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-
-//imports paxton added, may or may not be neccessary
 import javafx.scene.text.Font;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class PatientDetails implements IScreen {

@@ -1,19 +1,12 @@
 package application.healthSoftware;
 
-import java.util.List;
-
-import application.healthSoftware.data.MessageThread;
-import application.healthSoftware.data.PatientProfile;
-import application.healthSoftware.data.Question;
 import application.healthSoftware.data.User;
-import application.healthSoftware.data.Visit;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class HealthApplication {
 	private ScreenController screenController;
-	private DataController dataController;
 	private Stage primaryStage;
 	
 	private User currentUser;
@@ -23,7 +16,7 @@ public class HealthApplication {
 	public HealthApplication() {
 		// Create object that will manage our UI
 		screenController = new ScreenController(this);
-		dataController = DataController.getInstance();
+		DataController.getInstance();
 		
 		
 		// Debugging steps, remove later!!

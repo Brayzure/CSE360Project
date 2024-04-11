@@ -32,6 +32,7 @@ public class VisitExamFindings implements IScreen {
 	public Region getLayout() {
 		VBox layout = new VBox();
 		
+		// Title
 		HBox titleRow = new HBox();
 		titleRow.setAlignment(Pos.CENTER);
 		Label title = new Label("Exam Findings");
@@ -39,12 +40,14 @@ public class VisitExamFindings implements IScreen {
 		titleRow.getChildren().add(title);
 		layout.getChildren().add(titleRow);
 		
+		// Intermediate layout
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
 		content.setPrefHeight(500);
 		content.setSpacing(15);
 		layout.getChildren().add(content);
 
+		// Input
 		content.getChildren().add(makeCenteredInputElement("Exam Findings"));
 		
 		VBox examFindingsVBox = (VBox) content.getChildren().get(0);
@@ -53,9 +56,9 @@ public class VisitExamFindings implements IScreen {
 		
 		examFindingsInput.textProperty().addListener((observable, oldValue, newValue) -> {
 			examFindings = newValue;
-			System.out.println(examFindings);
 		});
 		
+		// Proceed button
 		Button registerButton = new Button("Next");
 		registerButton.setOnMouseClicked((e) -> {
 			Visit cVisit = dataController.getCurrentVisit();
@@ -71,6 +74,7 @@ public class VisitExamFindings implements IScreen {
 		return layout;
 	}
 	
+	// Isolate some layout code here
 	private VBox makeCenteredInputElement(String placeholder) {
 		Label fieldTitle = new Label(placeholder);
 		fieldTitle.setFont(new Font(18));
