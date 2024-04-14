@@ -46,7 +46,6 @@ public class ScreenController {
 		allScreens.put(PatientPortalChangeInfo.ScreenID, new PatientPortalChangeInfo(this));
 		allScreens.put(PatientPortalCreateAccount.ScreenID, new PatientPortalCreateAccount(this));
 		allScreens.put(PatientPortalCreateImmunization.ScreenID, new PatientPortalCreateImmunization(this));
-		allScreens.put(MessageScreen.ScreenID, new MessageScreen(this));
 		allScreens.put(VisitExamRoom.ScreenID, new VisitExamRoom(this));
 		allScreens.put(VisitExamQuestions.ScreenID, new VisitExamQuestions(this));
 		allScreens.put(VisitPatientOverview.ScreenID, new VisitPatientOverview(this));

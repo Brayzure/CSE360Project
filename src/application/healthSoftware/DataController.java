@@ -17,7 +17,6 @@ public class DataController {
 
 	private Map<String, Visit> allVisits = new LinkedHashMap<>();
 	private Map<String, PatientProfile> allPatients = new LinkedHashMap<>();
-	private Map<String, MessageThread> allThreads = new LinkedHashMap<>();
 	private Map<String, User> allUsers = new LinkedHashMap<>();
 	private Map<String, Question> allQuestions = new LinkedHashMap<>();
 	
@@ -54,20 +53,6 @@ public class DataController {
 		// Load all visits into memory
 		try {
 			allVisits = (Map<String, Visit>) Serializer.deserialize(rootFolder + "visits.ser");
-		}
-		catch(FileNotFoundException err) {
-			// File doesn't exist, that's alright!
-		}
-		catch(IOException err) {
-			err.printStackTrace();
-		}
-		catch(ClassNotFoundException err) {
-			err.printStackTrace();
-		}
-		
-		// Load all threads into memory
-		try {
-			allThreads = (Map<String, MessageThread>) Serializer.deserialize(rootFolder + "threads.ser");
 		}
 		catch(FileNotFoundException err) {
 			// File doesn't exist, that's alright!
@@ -239,50 +224,6 @@ public class DataController {
 		return questions;
 	}
 	
-	// Get all message threads
-	public List<MessageThread> getAllMessageThreads() {
-		List<MessageThread> threads = new ArrayList<MessageThread>();
-		
-		for(Map.Entry<String, MessageThread> entry : allThreads.entrySet()) {
-			MessageThread thread = entry.getValue();
-			threads.add(thread);
-		}
-		
-		return threads;
-	}
-	
-	// Get all message threads for a single patient
-	public List<MessageThread> getAllMessageThreadsForPatient(String patientID) {
-		List<MessageThread> threads = new ArrayList<MessageThread>();
-		
-		for(Map.Entry<String, MessageThread> entry : allThreads.entrySet()) {
-			MessageThread thread = entry.getValue();
-			if(thread.authorID.equals(patientID)) {
-				threads.add(thread);
-			}
-		}
-		
-		return threads;
-	}
-	
-	// Get a message thread
-	public MessageThread getMessageThread(String threadID) {
-		return allThreads.get(threadID);
-	}
-	
-	// Save a message thread
-	public void saveMessageThread(MessageThread t) {
-		allThreads.put(t.threadID, t);
-		
-		String fileName = rootFolder + "threads.ser";
-		try {
-			Serializer.serialize(allThreads, fileName);
-		}
-		catch(IOException err) {
-			err.printStackTrace();
-		}
-	}
-	
 	// Retrieve a specific user by their ID
 	public User getUser(String userID) {
 		return allUsers.get(userID);
@@ -344,7 +285,7 @@ public class DataController {
 		return currentVisit;
 	}
 	
-	// Set sached patient profile
+	// Set cached patient profile
 	public void setCurrentPatientProfile(PatientProfile p) {
 		currentPatientProfile = p;
 	}
